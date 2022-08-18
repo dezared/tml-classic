@@ -1,0 +1,14 @@
+name: Build docker-file [ TEST conf. ]
+
+on:
+  push:
+    branches: [dev]
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+      - name: Build image
+        run: docker compose -f docker-compose.prod.yml build
