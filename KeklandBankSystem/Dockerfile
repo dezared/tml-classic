@@ -5,9 +5,6 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/root/.aspnet/https/tml-classic.pfx"
-ENV ASPNETCORE_Kestrel__Certificates__Default__Password="Dezare32321"
-
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["KeklandBankSystem/KeklandBankSystem.csproj", "KeklandBankSystem/"]

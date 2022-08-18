@@ -4,15 +4,6 @@ services:
   tml-classic-api:
     image: tml-classic-api
     container_name: tml-classic-api
-    ports:
-      - 59404:80
-      - 44392:44392
-    networks:
-      - database-network
     build:
       context: .
       dockerfile: KeklandBankSystem/Dockerfile
-
-networks:
-  database-network:
-    driver: bridge
