@@ -1,0 +1,60 @@
+version: '3.7'
+
+services:
+  tml-classic-db:
+    image: postgres
+    container_name: tml-classic-db
+    environment:
+      - POSTGRES_USER=${{ secrets.POSTGRES_USERp }}
+      - POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+      - POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+    ports:
+      - 5433:5432
+    networks:
+      - database-network
+
+  tml-classic-api:
+    image: dezare/tml-classic-api
+    container_name: tml-classic-api
+    ports:
+      - 59404:80
+      - 44392:44392
+    depends_on:
+      - tml-classic-db
+    environment:
+      - ConnectionStrings_Develop=${{ secrets.ConnectionStrings_Develop }}
+      - ConnectionStrings_TestDbKekbk=${{ secrets.ConnectionStrings_TestDbKekbk }}
+      - ConnectionStrings_DbKekbk=${{ secrets. ConnectionStrings_DbKekbk }}
+      - VkConnect_AppId=${{ secrets.VkConnect_AppId }}
+      - VkConnect_SecretKey=${{ secrets.VkConnect_SecretKey }}
+      - VkConnect_ServiceSecretKey=${{ secrets.VkConnect_ServiceSecretKey }}
+      - KestrelIps_Develop=https://localhost:5001/
+      - KestrelIps_TestDbKekbk=https://localhost:5001/
+      - KestrelIps_DbKekbk=https://localhost:5001/
+      - ConfigBot_AccessToken=sosamba
+      - ConfigBot_Confirmation=sosamba
+      - ASPNETCORE_URLS=https://+:44392;http://+:80
+      - ASPNETCORE_HTTPS_PORT=44392
+      - SystemConfiguration=TestingSystem
+    networks:
+      - database-network
+    build:
+      context: .
+      dockerfile: KeklandBankSystem/Dockerfile
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+  tml-classic-proxy:
+    container_name: tml-classic-proxy
+    image: nginx:latest
+    volumes:
+      - ./nginx.info:/etc/nginx/nginx.conf
+      - ./domain.crt:/etc/nginx/cert.crt
+      - ./domain.rsa:/etc/nginx/cert.rsa
+    ports:
+      - 5001:44392
+
+networks:
+  database-network:
+    driver: bridge
