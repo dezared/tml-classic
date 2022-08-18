@@ -24,12 +24,13 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login
 
-      - name: Push
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:push tml-classic-api --app=tml-classic-test web
+      - name: Tags [ 1 / 2 ]
+        run: docker tag tml-classic-api registry.heroku.com/tml-classic-test/web
+      
+      - name: Tags [ 2 / 2 ]
+        run: docker push registry.heroku.com/tml-classic-test/web
 
       - name: Release
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release tml-classic-api --app=tml-classic-test web 
+        run: heroku container:release -a tml-classic-test web 
