@@ -7,16 +7,6 @@ on:
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
-    env:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-      ConnectionStrings_Develop: ${ConnectionStrings_Develop}
-      ConnectionStrings_TestDbKekbk: ${ConnectionStrings_TestDbKekbk}
-      ConnectionStrings_DbKekbk: ${ConnectionStrings_DbKekbk}
-      VkConnect_AppId: ${VkConnect_AppId}
-      VkConnect_SecretKey: ${VkConnect_SecretKey}
-      VkConnect_ServiceSecretKey: ${VkConnect_ServiceSecretKey}
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v2
@@ -25,6 +15,16 @@ jobs:
         uses: isbang/compose-action@v1.1.0
         with:
           compose-file: "./docker-compose.test.yml"
+        env:
+          POSTGRES_USER: ${POSTGRES_USER}
+          POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+          POSTGRES_DB: ${POSTGRES_DB}
+          ConnectionStrings_Develop: ${ConnectionStrings_Develop}
+          ConnectionStrings_TestDbKekbk: ${ConnectionStrings_TestDbKekbk}
+          ConnectionStrings_DbKekbk: ${ConnectionStrings_DbKekbk}
+          VkConnect_AppId: ${VkConnect_AppId}
+          VkConnect_SecretKey: ${VkConnect_SecretKey}
+          VkConnect_ServiceSecretKey: ${VkConnect_ServiceSecretKey}
 
       - name: Informatiion
         run: docker ps -a
