@@ -14,7 +14,7 @@ RUN dotnet build "KeklandBankSystem.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "KeklandBankSystem.csproj" -c Release -o /app/publish
 
-RUN /bin/bash -c "sudo apt update"
+RUN /bin/bash -c "apt update"
 RUN /bin/bash -c "apt install sudo"
 
 FROM base AS final
