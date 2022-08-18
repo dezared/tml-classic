@@ -22,7 +22,7 @@ services:
     depends_on:
       - tml-classic-db
     environment:
-      - ConnectionStrings_Develop=${{ secrets.ConnectionStrings_Develop }}
+      - ConnectionStrings_Develop=${{ secrets.ConnectionStrings_Develop 1}}
       - ConnectionStrings_TestDbKekbk=${{ secrets.ConnectionStrings_TestDbKekbk }}
       - ConnectionStrings_DbKekbk=${{ secrets. ConnectionStrings_DbKekbk }}
       - VkConnect_AppId=${{ secrets.VkConnect_AppId }}
