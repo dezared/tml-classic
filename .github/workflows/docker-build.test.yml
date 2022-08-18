@@ -11,4 +11,4 @@ jobs:
       - name: Checkout the repo
         uses: actions/checkout@v2
       - name: Build image
-        run: docker compose -f docker-compose.prod.yml build
+        run: docker-compose -f docker-compose.prod.yml build | sed -e 's/\$\$/\$/g' > docker-compose.yml
