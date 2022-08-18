@@ -11,31 +11,11 @@ jobs:
       - name: Checkout the repo
         uses: actions/checkout@v2
 
-      - name: Create Container
-        uses: isbang/compose-action@v1.1.0
+      - name: Build, Push and Deploy to Heroku #set the whatever name you want to this step
+        id: heroku
+        uses: snithyanantham/docker-compose-multiple-apps-heroku-deploy@v1.0  # use the latest version of the action
         with:
-          compose-file: "./docker-compose.test.yml"
-
-      - name: Informatiion
-        run: docker ps -a
-
-      - name: Login to Heroku Container registry
-        uses: actions/heroku@master
-        env: 
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        with:
-          args: container:login
-
-      - name: Push
-        uses: actions/heroku@master
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        with:
-          args: container:push -a tml-classic-test web
-
-      - name: Release
-        uses: actions/heroku@master
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        with:
-          args: container:release -a tml-classic-test web
+          email: ${{ secrets.HEROKU_EMAIL }} # your heroku email
+          api_key: ${{ secrets.HEROKU_API_KEY }} # your  heroku api key
+          docker_compose_file: './docker-compose.test.yml' # set the path to the folder where the docker-compose file is located
+          heroku_apps: '[{"imagename":"tml-classic-api","appname":"tml-classic-test","apptype":"web"}]'
