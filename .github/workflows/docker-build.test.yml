@@ -8,7 +8,9 @@ jobs:
   build_and_push:
     runs-on: ubuntu-latest
     steps:
-      - name: publish
-      - uses: isbang/compose-action@v1.1.0
-      	with:
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+      - name: Publish
+        uses: isbang/compose-action@v1.1.0
+        with:
           compose-file: "./docker-compose.test.yml"
