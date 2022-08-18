@@ -16,15 +16,15 @@ jobs:
         with:
           compose-file: "./docker-compose.test.yml"
         env:
-          POSTGRES_USER=${{ POSTGRES_USER }}
-          POSTGRES_PASSWORD=${{ POSTGRES_PASSWORD }}
-          POSTGRES_DB=${{ POSTGRES_DB }}
-          ConnectionStrings_Develop=${{ ConnectionStrings_Develop }}
-          ConnectionStrings_TestDbKekbk=${{ ConnectionStrings_TestDbKekbk }}
-          ConnectionStrings_DbKekbk=${{ ConnectionStrings_DbKekbk }}
-          VkConnect_AppId=${{ VkConnect_AppId }}
-          VkConnect_SecretKey=${{ VkConnect_SecretKey }}
-          VkConnect_ServiceSecretKey=${{ VkConnect_ServiceSecretKey}}
+          POSTGRES_USER:${{POSTGRES_USER}}
+          POSTGRES_PASSWORD:${{POSTGRES_PASSWORD}}
+          POSTGRES_DB:${{POSTGRES_DB}}
+          ConnectionStrings_Develop:${{ConnectionStrings_Develop}}
+          ConnectionStrings_TestDbKekbk:${{ConnectionStrings_TestDbKekbk}}
+          ConnectionStrings_DbKekbk:${{ConnectionStrings_DbKekbk}}
+          VkConnect_AppId:${{VkConnect_AppId}}
+          VkConnect_SecretKey:${{VkConnect_SecretKey}}
+          VkConnect_ServiceSecretKey:${{VkConnect_ServiceSecretKey}}
 
       - name: Informatiion
         run: docker ps -a
