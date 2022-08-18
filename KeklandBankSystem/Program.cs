@@ -30,13 +30,17 @@ namespace KeklandBankSystem
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
                     webBuilder.ConfigureLogging((context, logger) =>
                     {
                         logger.AddConsole();
                         logger.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Error);
                         logger.AddFilter("Microsoft.EntityFrameworkCore.Query", LogLevel.Error);
+
                     });
+                    webBuilder.ConfigureKestrel(serverOptions =>
+                    {
+                        serverOptions.Listen(IPAddress.Any, 5001);
+                    }).UseStartup<Startup>();
                     //webBuilder.UseUrls(Environment.GetEnvironmentVariable($"KestrelIps_{SystemConfiguration}"));
                 }).Build().Run();
         }
