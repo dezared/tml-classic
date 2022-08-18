@@ -7,3 +7,5 @@ services:
     build:
       context: .
       dockerfile: KeklandBankSystem/Dockerfile
+    ports: 
+      - "5001:80"
