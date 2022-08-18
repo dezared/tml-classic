@@ -5179,7 +5179,16 @@ namespace KeklandBankSystem.Controllers
                 ModelState.AddModelError("", "Неверные данные.");
                 return View(model);
             }
-            
+
+            var findUser = await _bankServices.FindByVKID(model.VKUid);
+
+            if (findUser != null) // user is login
+            {
+                await Authenticate(findUser.Name);
+                return RedirectToAction("Index", "Bank");
+            }
+
+
             User user = new User
             {
                 Name = model.Name,
@@ -5262,7 +5271,7 @@ namespace KeklandBankSystem.Controllers
 
             if (user != null)
             {
-                var model = new RegisterModel()
+                var model = new EditUserModelSettings()
                 {
                     Name = user.Name,
                     Password = "",
@@ -5274,7 +5283,7 @@ namespace KeklandBankSystem.Controllers
 
         [HttpPost("user/settings")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUser(RegisterModel model)
+        public async Task<IActionResult> EditUser(EditUserModelSettings model)
         {
             if (ModelState.IsValid)
             {

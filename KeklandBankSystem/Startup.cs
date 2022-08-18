@@ -288,7 +288,7 @@ namespace KeklandBankSystem
             {
                 if (userPrincipal != null && user != null)
                 {
-                    var userIsTest = await _bankServices.UserIsInRole(user, "Tester") || await _bankServices.UserIsInRole(user, "Administrator");
+                    var userIsTest = await _bankServices.UserIsInRole(user, "Tester") || await _bankServices.UserIsInRole(user, "Administrator") || await _bankServices.UserIsInRole(user, "Owner");
                     if (!userIsTest)
                     {
                         if (!(name == "Error"))

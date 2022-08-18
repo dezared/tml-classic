@@ -19,6 +19,7 @@ namespace KeklandBankSystem.Infrastructure
     public interface IBankServices
     {
         Task<User> FindByNameAsync(string Name);
+        Task<User> FindByVKID(long vkid);
         Task<User> FindByIdAsync(int Id);
         Task CreateUserAsync(User user);
         Task<User> GetUser();
@@ -685,6 +686,8 @@ namespace KeklandBankSystem.Infrastructure
 
             return level;
         }
+
+        public async Task<User> FindByVKID(long vkid) =>  await bdb.Users.Where(m => m.VKUniqId == vkid).FirstOrDefaultAsync();
 
         public async Task AddUsedCode(PassCode code, User user)
         {

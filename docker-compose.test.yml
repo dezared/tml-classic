@@ -9,3 +9,9 @@ services:
       dockerfile: KeklandBankSystem/Dockerfile
     ports: 
       - "5001:80"
+    volumes:
+      - /home/userImages:/app/wwwroot/imgs/userImages
+      - /home/userImagesAds:/app/wwwroot/imgs/userImagesAds
+      - /home/userImagesStatic:/app/wwwroot/imgs/userImagesStatic
+      - /home/userImagesTicket:/app/wwwroot/imgs/userImagesTicket
+      - /home/user_img:/app/wwwroot/imgs/user_img

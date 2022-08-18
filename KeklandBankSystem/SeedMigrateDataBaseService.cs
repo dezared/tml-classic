@@ -178,6 +178,21 @@ namespace KeklandBankSystem
                 await bdb.SaveChangesAsync();
             }
 
+            // Todo
+            var weithLevel = new List<WeithLevel>()
+            {
+                new WeithLevel() { Name = "Селянин" },
+                new WeithLevel() { Name = "Гражданин" }
+            };
+
+            var weithLevelCount = bdb.WeithLevel.Count();
+
+            if(weithLevelCount <= 0)
+            {
+                bdb.WeithLevel.AddRange(weithLevel);
+                await bdb.SaveChangesAsync();
+            }
+
             var mainOrganization = await bdb.Organizations.Where(m => m.SpecialId == "main").FirstOrDefaultAsync();
 
             if(mainOrganization == null)
