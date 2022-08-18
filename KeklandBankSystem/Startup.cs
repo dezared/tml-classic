@@ -142,8 +142,6 @@ namespace KeklandBankSystem
             app.UseRouting();
             app.UseAuthorization();
 
-            app.UseHsts();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
