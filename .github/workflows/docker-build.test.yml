@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: publish
-      - uses: actions/checkout@v3
       - uses: isbang/compose-action@v1.1.0
       with:
         compose-file: "./docker-compose.test.yml"
