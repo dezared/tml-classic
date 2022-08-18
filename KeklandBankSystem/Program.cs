@@ -39,7 +39,7 @@ namespace KeklandBankSystem
                     });
                     webBuilder.ConfigureKestrel(serverOptions =>
                     {
-                        serverOptions.Listen(IPAddress.Any, 5001);
+                        serverOptions.Listen(IPAddress.Any, Convert.ToInt32(Environment.GetEnvironmentVariable("PORT")));
                     }).UseStartup<Startup>();
                     //webBuilder.UseUrls(Environment.GetEnvironmentVariable($"KestrelIps_{SystemConfiguration}"));
                 }).Build().Run();
