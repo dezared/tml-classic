@@ -1,13 +1,13 @@
-version: '3.7'
+version: '3'
 
 services:
   tml-classic-db:
     image: postgres
     container_name: tml-classic-db
     environment:
-      - POSTGRES_USER=$${{ secrets.POSTGRES_USERp }}
-      - POSTGRES_PASSWORD=$${{ secrets.POSTGRES_PASSWORD }}
-      - POSTGRES_DB=$${{ secrets.POSTGRES_DB }}
+      - POSTGRES_USER=${{ secrets.POSTGRES_USERp }}
+      - POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+      - POSTGRES_DB=${{ secrets.POSTGRES_DB }}
     ports:
       - 5433:5432
     networks:
@@ -22,12 +22,12 @@ services:
     depends_on:
       - tml-classic-db
     environment:
-      - ConnectionStrings_Develop=$${{ secrets.ConnectionStrings_Develop }}
-      - ConnectionStrings_TestDbKekbk=$${{ secrets.ConnectionStrings_TestDbKekbk }}
-      - ConnectionStrings_DbKekbk=$${{ secrets. ConnectionStrings_DbKekbk }}
-      - VkConnect_AppId=$${{ secrets.VkConnect_AppId }}
-      - VkConnect_SecretKey=$${{ secrets.VkConnect_SecretKey }}
-      - VkConnect_ServiceSecretKey=$${{ secrets.VkConnect_ServiceSecretKey }}
+      - ConnectionStrings_Develop=${{ secrets.ConnectionStrings_Develop }}
+      - ConnectionStrings_TestDbKekbk=${{ secrets.ConnectionStrings_TestDbKekbk }}
+      - ConnectionStrings_DbKekbk=${{ secrets. ConnectionStrings_DbKekbk }}
+      - VkConnect_AppId=${{ secrets.VkConnect_AppId }}
+      - VkConnect_SecretKey=${{ secrets.VkConnect_SecretKey }}
+      - VkConnect_ServiceSecretKey=${{ secrets.VkConnect_ServiceSecretKey }}
       - KestrelIps_Develop=https://localhost:5001/
       - KestrelIps_TestDbKekbk=https://localhost:5001/
       - KestrelIps_DbKekbk=https://localhost:5001/
