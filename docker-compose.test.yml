@@ -14,7 +14,7 @@ services:
       - database-network
 
   tml-classic-api:
-    image: dezare/tml-classic-api
+    image: tml-classic-api
     container_name: tml-classic-api
     ports:
       - 59404:80
