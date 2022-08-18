@@ -1,4 +1,4 @@
-name: Build docker-file [ TEST conf. ]
+name: Build docker-file and push Heroku [ TEST conf. ]
 
 on:
   push:
