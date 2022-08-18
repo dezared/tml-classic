@@ -7,8 +7,6 @@ services:
     ports:
       - 59404:80
       - 44392:44392
-    depends_on:
-      - tml-classic-db
     networks:
       - database-network
     build:
