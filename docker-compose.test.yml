@@ -1,14 +1,6 @@
 version: '3.8'
 
 services:
-  tml-classic-db:
-    image: postgres
-    container_name: tml-classic-db
-    ports:
-      - 5433:5432
-    networks:
-      - database-network
-
   tml-classic-api:
     image: tml-classic-api
     container_name: tml-classic-api
@@ -22,10 +14,6 @@ services:
     build:
       context: .
       dockerfile: KeklandBankSystem/Dockerfile
-
-  tml-classic-proxy:
-    ports:
-      - 5001:44392
 
 networks:
   database-network:
