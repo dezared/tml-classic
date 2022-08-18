@@ -2,7 +2,6 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
-EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
@@ -15,7 +14,25 @@ RUN dotnet build "KeklandBankSystem.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "KeklandBankSystem.csproj" -c Release -o /app/publish
 
+RUN /bin/bash -c "echo fs.inotify.max_user_instances=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p"
+
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+# set inotify and start the node application, replace yar with your command
+RUN echo "#!/bin/sh \n\
+echo "fs.inotify.max_user_watches before update" \n\
+cat /etc/sysctl.conf\n\
+echo "______________________________________________updating inotify ____________________________________" \n\
+echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p \n\
+echo "updated value is" \n\
+cat /etc/sysctl.conf | grep fs.inotify \n\
+exec yarn start:dev \
+" >> /usr/local/bin/entrypoint.sh
+
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+
+EXPOSE 80
 ENTRYPOINT ["dotnet", "KeklandBankSystem.dll"]

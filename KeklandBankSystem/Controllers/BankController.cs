@@ -5174,12 +5174,6 @@ namespace KeklandBankSystem.Controllers
         [HttpPost("user/registerVK")]
         public async Task<IActionResult> RegisterVK(RegisterVKModel model)
         {
-            if(String.IsNullOrEmpty(model.Name) || String.IsNullOrEmpty(model.Password))
-            {
-                ModelState.AddModelError("", "Неверные данные.");
-                return View(model);
-            }
-
             var findUser = await _bankServices.FindByVKID(model.VKUid);
 
             if (findUser != null) // user is login
@@ -5187,43 +5181,51 @@ namespace KeklandBankSystem.Controllers
                 await Authenticate(findUser.Name);
                 return RedirectToAction("Index", "Bank");
             }
-
-
-            User user = new User
+            else
             {
-                Name = model.Name,
-                Password = Crypto.HashPassword(model.Password),
-                Money = 0,
-                VKUniqId = model.VKUid,
-                ImageUrl = "/userImages/" + "default_image.png"
-            };
+                if (String.IsNullOrEmpty(model.Name) || String.IsNullOrEmpty(model.Password))
+                {
+                    ModelState.AddModelError("", "Неверные данные.");
+                    return View(model);
+                }
 
-            if (model.Name.Contains(">") || model.Name.Contains("=") || model.Name.Contains("<") || model.Name.Contains(":") || model.Name.Contains("\""))
-            {
-                ModelState.AddModelError("", "Некорентный ввод.");
-                return View(model);
+
+                User user = new User
+                {
+                    Name = model.Name,
+                    Password = Crypto.HashPassword(model.Password),
+                    Money = 0,
+                    VKUniqId = model.VKUid,
+                    ImageUrl = "/userImages/" + "default_image.png"
+                };
+
+                if (model.Name.Contains(">") || model.Name.Contains("=") || model.Name.Contains("<") || model.Name.Contains(":") || model.Name.Contains("\""))
+                {
+                    ModelState.AddModelError("", "Некорентный ввод.");
+                    return View(model);
+                }
+
+                if (String.IsNullOrEmpty(model.Name) || model.Name.Length > 20 || model.Name.Length < 3)
+                {
+                    ModelState.AddModelError("", "Максимальная длина имени: 20, минимальная 3.");
+                    return View(model);
+                }
+
+                var search = await _bankServices.FindByNameAsync(model.Name);
+
+                if (search != null)
+                {
+                    ModelState.AddModelError("", "Никнейм занят.");
+                    return View(model);
+                }
+
+                await _bankServices.CreateUserAsync(user); // добавляем пользователя
+
+                await _bankServices.CreateRoleUser(new UserRole() { RoleName = "User", UserId = user.Id });
+
+                await Authenticate(model.Name);
+                return RedirectToAction("Index", "Bank");
             }
-
-            if (String.IsNullOrEmpty(model.Name) || model.Name.Length > 20 || model.Name.Length < 3)
-            {
-                ModelState.AddModelError("", "Максимальная длина имени: 20, минимальная 3.");
-                return View(model);
-            }
-
-            var search = await _bankServices.FindByNameAsync(model.Name);
-
-            if(search != null)
-            {
-                ModelState.AddModelError("", "Никнейм занят.");
-                return View(model);
-            }
-
-            await _bankServices.CreateUserAsync(user); // добавляем пользователя
-
-            await _bankServices.CreateRoleUser(new UserRole() { RoleName = "User", UserId = user.Id });
-
-            await Authenticate(model.Name);
-            return RedirectToAction("Index", "Bank");
         }
 
 
