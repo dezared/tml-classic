@@ -687,7 +687,7 @@ namespace KeklandBankSystem.Infrastructure
             return level;
         }
 
-        public async Task<User> FindByVKID(long vkid) =>  await bdb.Users.Where(m => m.VKUniqId == vkid).FirstOrDefaultAsync();
+        public async Task<User> FindByVKID(long vkid) => await bdb.Users.Where(m => m.VKUniqId == vkid).FirstOrDefaultAsync();
 
         public async Task AddUsedCode(PassCode code, User user)
         {

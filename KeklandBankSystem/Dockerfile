@@ -14,7 +14,8 @@ RUN dotnet build "KeklandBankSystem.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "KeklandBankSystem.csproj" -c Release -o /app/publish
 
-RUN /bin/bash -c "echo fs.inotify.max_user_instances=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p"
+
+RUN /bin/bash -c "apt install sudo"
 
 FROM base AS final
 WORKDIR /app

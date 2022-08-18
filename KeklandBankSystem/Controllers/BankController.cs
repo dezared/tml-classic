@@ -5189,7 +5189,6 @@ namespace KeklandBankSystem.Controllers
                     return View(model);
                 }
 
-
                 User user = new User
                 {
                     Name = model.Name,
@@ -5240,11 +5239,11 @@ namespace KeklandBankSystem.Controllers
             if (hash != MD5HashPHP(appid + uid + secretKey))
                 return RedirectToAction("Register", "Bank");
 
-            var find = (await _bankServices.GetAllUser()).Where(m => m.VKUniqId == uid).FirstOrDefault();
+            var findUser = await _bankServices.FindByVKID(uid);
 
-            if(find != null) // Автовход
+            if(findUser != null) // Автовход
             {
-                await Authenticate(find.Name);
+                await Authenticate(findUser.Name);
                 return RedirectToAction("Index", "Bank");
             }
             else // регистрация
