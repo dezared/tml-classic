@@ -14,3 +14,5 @@ jobs:
         uses: isbang/compose-action@v1.1.0
         with:
           compose-file: "./docker-compose.test.yml"
+      - name: Informatiion
+        run: docker ps -a
