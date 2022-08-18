@@ -41,17 +41,10 @@ services:
     build:
       context: .
       dockerfile: KeklandBankSystem/Dockerfile
-    volumes:
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
   tml-classic-proxy:
     container_name: tml-classic-proxy
     image: nginx:latest
-    volumes:
-      - ./nginx.info:/etc/nginx/nginx.conf
-      - ./domain.crt:/etc/nginx/cert.crt
-      - ./domain.rsa:/etc/nginx/cert.rsa
     ports:
       - 5001:44392
 
