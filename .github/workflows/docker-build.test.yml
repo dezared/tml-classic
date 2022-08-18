@@ -13,6 +13,5 @@ jobs:
       - name: publish
         uses: pennsignals/publish_docker-compose@v0.1.0
         with:
-          version: 'test' # optional
           docker_compose: 'docker-compose.test.yml' # required
           repo_token: "${{ secrets.PERSONAL_GH_TOKEN }}"
