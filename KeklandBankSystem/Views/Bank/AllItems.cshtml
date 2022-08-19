@@ -36,11 +36,6 @@
             </div>
         </div>
 
-        @if (admin)
-        {
-            <a class="menu-url" href="@Url.Action("CreateItem", "Bank", new { id = 4 })"><i class="fas fa-chart-bar"></i> Создать</a>
-        }
-
         <a class="menu-url" href="@Url.Action("BuyCase", "Bank")">Купить ящик с предметами</a>
         <a class="menu-url" href="@Url.Action("AllItems", "Bank")">Все предметы</a>
         <a class="menu-url" href="@Url.Action("AllItems", "Bank", new { type = "type_car" })"><i class="fas fa-car"></i> Машины</a>

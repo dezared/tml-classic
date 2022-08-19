@@ -1324,54 +1324,51 @@ namespace KeklandBankSystem.Infrastructure
 
             foreach (var user in list)
             {
-                if (!IsUserAdminNonAs(user))
+                var nStavka = stavka;
+
+                if (UserHavePremium(user))
                 {
-                    var nStavka = stavka;
+                    nStavka = nStavka / 2;
+                }
 
-                    if (UserHavePremium(user))
+                var dep = await GetDeposit(user);
+
+                int userNal = 0;
+
+                if (dep != null)
+                {
+                    if (dep.Money > 100)
                     {
-                        nStavka = nStavka / 2;
+                        int depNalog = Convert.ToInt32((dep.Money / 100) * nStavka);
+                        await SpentMoney(depNalog);
+                        dep.Money -= depNalog;
+                        userNal += depNalog;
+
+                        await SaveDeposit(dep);
                     }
+                }
 
-                    var dep = await GetDeposit(user);
+                if (user.Money > 100)
+                {
+                    var nalog = Convert.ToInt32((user.Money / 100) * nStavka);
+                    await SpentMoney(nalog);
+                    user.Money -= nalog;
+                    userNal += nalog;
+                    await UpdateUser(user);
+                }
 
-                    int userNal = 0;
-
-                    if (dep != null)
+                if (userNal > 0 && !user.IsArrested)
+                {
+                    obshee += userNal;
+                    await AddToRecdStat(userNal);
+                    await CreateTransaction(new Transaction()
                     {
-                        if (dep.Money > 100)
-                        {
-                            int depNalog = Convert.ToInt32((dep.Money / 100) * nStavka);
-                            await SpentMoney(depNalog);
-                            dep.Money -= depNalog;
-                            userNal += depNalog;
-
-                            await SaveDeposit(dep);
-                        }
-                    }
-
-                    if (user.Money > 100)
-                    {
-                        var nalog = Convert.ToInt32((user.Money / 100) * nStavka);
-                        await SpentMoney(nalog);
-                        user.Money -= nalog;
-                        userNal += nalog;
-                        await UpdateUser(user);
-                    }
-
-                    if (userNal > 0 && !user.IsArrested)
-                    {
-                        obshee += userNal;
-                        await AddToRecdStat(userNal);
-                        await CreateTransaction(new Transaction()
-                        {
-                            Date = NowDateTime(),
-                            Id1 = user.Id,
-                            Id2 = -1,
-                            Value = userNal,
-                            Text = "Налоговый сбор ( " + nStavka + "% )"
-                        });
-                    }
+                        Date = NowDateTime(),
+                        Id1 = user.Id,
+                        Id2 = -1,
+                        Value = userNal,
+                        Text = "Налоговый сбор ( " + nStavka + "% )"
+                    });
                 }
             }
 
@@ -2309,7 +2306,7 @@ namespace KeklandBankSystem.Infrastructure
             if (user == null) return false;
             else
             {
-                var a = bdb.UserRoles.Where(m => m.UserId == user.Id).Where(m => m.RoleName == "Administrator").FirstOrDefault();
+                var a = bdb.UserRoles.Where(m => m.UserId == user.Id).Where(m => m.RoleName == "Administrator" || m.RoleName == "Owner" || m.RoleName == "Moderator").FirstOrDefault();
                 if (a == null) return false;
                 return true;
             }

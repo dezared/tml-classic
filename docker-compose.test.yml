@@ -4,6 +4,7 @@ services:
   tml-classic-api:
     image: tml-classic-api
     container_name: tml-classic-api
+    restart: always
     build:
       context: .
       dockerfile: KeklandBankSystem/Dockerfile
