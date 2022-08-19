@@ -2306,8 +2306,10 @@ namespace KeklandBankSystem.Infrastructure
             if (user == null) return false;
             else
             {
-                var a = bdb.UserRoles.Where(m => m.UserId == user.Id).Where(m => m.RoleName == "Administrator" || m.RoleName == "Owner" || m.RoleName == "Moderator").FirstOrDefault();
-                if (a == null) return false;
+                var a = bdb.UserRoles.Where(m => m.UserId == user.Id).Where(m => m.RoleName == "Administrator").FirstOrDefault();
+                var b = bdb.UserRoles.Where(m => m.UserId == user.Id).Where(m => m.RoleName == "Owner").FirstOrDefault();
+                var c = bdb.UserRoles.Where(m => m.UserId == user.Id).Where(m => m.RoleName == "Moderator").FirstOrDefault();
+                if (a == null && b == null && c == null) return false;
                 return true;
             }
         }
