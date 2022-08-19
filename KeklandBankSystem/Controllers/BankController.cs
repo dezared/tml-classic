@@ -5235,7 +5235,6 @@ namespace KeklandBankSystem.Controllers
             var appid = Environment.GetEnvironmentVariable($"VkConnect_AppId");
             var secretKey = Environment.GetEnvironmentVariable($"VkConnect_SecretKey");
 
-
             if (hash != MD5HashPHP(appid + uid + secretKey))
                 return RedirectToAction("Register", "Bank");
 

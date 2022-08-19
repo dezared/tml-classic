@@ -1038,17 +1038,21 @@ namespace KeklandBankSystem.Infrastructure
             {
                 res += "<span title=\"Обладатель премиума\" class=\"premium-user\">P</span>";
             }
-            if (UserIsInRole(user, "Administrator").Result)
+            else if (UserIsInRole(user, "Administrator").Result)
             {
                 res += "<span title=\"Администратор ТМЛ\" class=\"adm-user-d\">A</span>";
             }
-            if(UserIsInRole(user, "Moderator").Result)
+            else if(UserIsInRole(user, "Moderator").Result)
             {
                 res += "<span title=\"Модератор ТМЛ\" class=\"adm-moder-d\">M</span>";
             }
-            if (UserIsInRole(user, "Tester").Result)
+            else if(UserIsInRole(user, "Tester").Result)
             {
-                res += "<span title=\"Тестер ТМЛ\" class=\"adm-tester-d\">M</span>";
+                res += "<span title=\"Тестер ТМЛ\" class=\"adm-tester-d\">T</span>";
+            }
+            else if(UserIsInRole(user, "Owner").Result)
+            {
+                res += "<span title=\"Создатель ТМЛ\" class=\"adm-owner-d\">O</span>";
             }
 
             return res += user.Name + "</a>";
@@ -1312,6 +1316,10 @@ namespace KeklandBankSystem.Infrastructure
 
             int obshee = 0;
             var org = await GetOrganizations("main");
+
+            if (org == null)
+                return;
+
             var stavka = GetNalogStavka();
 
             foreach (var user in list)
@@ -1491,6 +1499,11 @@ namespace KeklandBankSystem.Infrastructure
             var org_list = await GetOrganizations();
             var money = 0;
 
+            var org_main = await GetOrganizations("main");
+
+            if (org_main == null)
+                return;
+
             foreach (var org in org_list)
             {
                 if (org.Influence > 0 && org.Status == "status_ok")
@@ -1514,7 +1527,6 @@ namespace KeklandBankSystem.Infrastructure
                 }
             }
 
-            var org_main = await GetOrganizations("main");
             org_main.Balance -= money;
             await SpentMoney(money);
 

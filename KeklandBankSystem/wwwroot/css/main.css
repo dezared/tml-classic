@@ -552,6 +552,50 @@ body {
     line-height: 15px;
 }
 
+.adm-owner-d {
+    padding: 2px 5px 2px 5px;
+    background: #9576b1;
+    color: white;
+    border-radius: 3px;
+    font-size: 10px;
+    user-select: none;
+    margin-right: 5px;
+    line-height: 15px;
+}
+
+.adm-owner-d {
+    padding: 2px 5px 2px 5px;
+    background: #9576b1;
+    color: white;
+    border-radius: 3px;
+    font-size: 10px;
+    user-select: none;
+    margin-right: 5px;
+    line-height: 15px;
+}
+
+.adm-tester-d {
+    padding: 2px 5px 2px 5px;
+    background: #74a1bb;
+    color: white;
+    border-radius: 3px;
+    font-size: 10px;
+    user-select: none;
+    margin-right: 5px;
+    line-height: 15px;
+}
+
+.adm-moder-d {
+    padding: 2px 5px 2px 5px;
+    background: #78bb74;
+    color: white;
+    border-radius: 3px;
+    font-size: 10px;
+    user-select: none;
+    margin-right: 5px;
+    line-height: 15px;
+}
+
 .premium-user {
     padding: 2px 5px 2px 5px;
     background: rgb(253,124,64);

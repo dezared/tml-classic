@@ -195,16 +195,16 @@ namespace KeklandBankSystem
 
             var mainOrganization = await bdb.Organizations.Where(m => m.SpecialId == "main").FirstOrDefaultAsync();
 
-            if(mainOrganization == null)
+            if (mainOrganization == null)
             {
                 var ownerUser = await bdb.UserRoles.Where(m => m.RoleName == "Owner").FirstOrDefaultAsync();
-                var user = await bdb.Users.Where(m => m.Id == ownerUser.UserId).FirstOrDefaultAsync();
+                var userreg = await bdb.Users.Where(m => m.Id == ownerUser.UserId).FirstOrDefaultAsync();
 
                 var organization = new Organization()
                 {
                     Name = "Центральный орган Торговой Мемной Лиги",
                     Short_Desc = "Предназначен для технических выплат в орагнизации, поддержание работы казино, товаров, накопления налогов. Содержит изначальный пул денег денег для всего ТМЛ.",
-                    AdminId = user.Id,
+                    AdminId = userreg.Id,
                     Balance = 550000,
                     GovermentId = -1,
                     ImageUrl = "https://sun9-6.userapi.com/impg/MmTYtKtKkHgD5HhsJXVVYmul5nwbiivAtndgeg/frrS0JyulGc.jpg?size=1000x1000&quality=96&sign=f2324f4c2af31dc04b672dc80785d17a&type=album",

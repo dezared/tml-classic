@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Hangfire;
+using Hangfire.Dashboard;
 using Hangfire.PostgreSql;
 using KeklandBankSystem.Controllers;
 using KeklandBankSystem.Infrastructure;
@@ -130,7 +131,10 @@ namespace KeklandBankSystem
 
             app.UseStatusCodePages();
 
-            app.UseHangfireDashboard();
+            app.UseHangfireDashboard(Environment.GetEnvironmentVariable("HangFireUrling"), new DashboardOptions
+            {
+                Authorization = new[] { new HanfFireAuthFilter() }
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -152,24 +156,24 @@ namespace KeklandBankSystem
             });
 
             var manager = new RecurringJobManager();
-            manager.AddOrUpdate<IBankServices>(Guid.NewGuid().ToString(), (IBankServices _service) => _service.InfluenceOrganization(), Cron.DayInterval(3));
-            manager.AddOrUpdate<IBankServices>(Guid.NewGuid().ToString(), (IBankServices _service) => _service.GetNalogs(), Cron.DayInterval(5));
-            manager.AddOrUpdate<IBankServices>(Guid.NewGuid().ToString(), (IBankServices _service) => _service.AddStatistics(), Cron.DayInterval(1));
-            manager.AddOrUpdate<IBankServices>(Guid.NewGuid().ToString(), (IBankServices _service) => _service.AddDeposit(), Cron.DayInterval(1));
-            manager.AddOrUpdate<IBankServices>(Guid.NewGuid().ToString(), (IBankServices _service) => _service.PayDay(), Cron.DayInterval(3));
-            manager.AddOrUpdate<IBankServices>(Guid.NewGuid().ToString(), (IBankServices _service) => _service.UpdateTopUser(), Cron.HourInterval(1));
-            manager.AddOrUpdate<IBankServices>(Guid.NewGuid().ToString(), (IBankServices _service) => _service.AddItemStatistics(), Cron.DayInterval(3));
-            manager.AddOrUpdate<IBankServices>(Guid.NewGuid().ToString(), (IBankServices _service) => _service.UpdateItemTopUser(), Cron.HourInterval(1));
-            manager.AddOrUpdate<IBankServices>(Guid.NewGuid().ToString(), (IBankServices _service) => _service.AddPremiumMoney(), Cron.DayInterval(1));
-            manager.AddOrUpdate<IBankServices>(Guid.NewGuid().ToString(), (IBankServices _service) => _service.PremiumUpdate(), Cron.DayInterval(1));
-            manager.AddOrUpdate<IBankServices>(Guid.NewGuid().ToString(), (IBankServices _service) => _service.WeithMunis(), Cron.DayInterval(7));
-            manager.AddOrUpdate<IBankServices>(Guid.NewGuid().ToString(), (IBankServices _service) => _service.GovermentCompleteBalance(), Cron.HourInterval(1));
-            manager.AddOrUpdate<IBankServices>(Guid.NewGuid().ToString(), (IBankServices _service) => _service.GovermentTaxesDayIncrease(), Cron.DayInterval(1));
-            manager.AddOrUpdate<IBankServices>(Guid.NewGuid().ToString(), (IBankServices _service) => _service.DeleteImage(), Cron.DayInterval(1));
-            manager.AddOrUpdate<IBankServices>(Guid.NewGuid().ToString(), (IBankServices _service) => _service.PrepareAllMoney(), Cron.DayInterval(1));
-            manager.AddOrUpdate<IBankServices>(Guid.NewGuid().ToString(), (IBankServices _service) => _service.RefreshAds(), Cron.HourInterval(12));
-            manager.AddOrUpdate<IBankServices>(Guid.NewGuid().ToString(), (IBankServices _service) => _service.NewsDays(), Cron.DayInterval(1));
-            manager.AddOrUpdate<IBankServices>(Guid.NewGuid().ToString(), (IBankServices _service) => _service.FixBug(), Cron.DayInterval(1));
+            manager.AddOrUpdate<IBankServices>("1", (IBankServices _service) => _service.InfluenceOrganization(), Cron.DayInterval(3));
+            manager.AddOrUpdate<IBankServices>("2", (IBankServices _service) => _service.GetNalogs(), Cron.DayInterval(5));
+            manager.AddOrUpdate<IBankServices>("3", (IBankServices _service) => _service.AddStatistics(), Cron.DayInterval(1));
+            manager.AddOrUpdate<IBankServices>("4", (IBankServices _service) => _service.AddDeposit(), Cron.DayInterval(1));
+            manager.AddOrUpdate<IBankServices>("5", (IBankServices _service) => _service.PayDay(), Cron.DayInterval(3));
+            manager.AddOrUpdate<IBankServices>("6", (IBankServices _service) => _service.UpdateTopUser(), Cron.HourInterval(1));
+            manager.AddOrUpdate<IBankServices>("7", (IBankServices _service) => _service.AddItemStatistics(), Cron.DayInterval(3));
+            manager.AddOrUpdate<IBankServices>("8", (IBankServices _service) => _service.UpdateItemTopUser(), Cron.HourInterval(1));
+            manager.AddOrUpdate<IBankServices>("9", (IBankServices _service) => _service.AddPremiumMoney(), Cron.DayInterval(1));
+            manager.AddOrUpdate<IBankServices>("10", (IBankServices _service) => _service.PremiumUpdate(), Cron.DayInterval(1));
+            manager.AddOrUpdate<IBankServices>("11", (IBankServices _service) => _service.WeithMunis(), Cron.DayInterval(7));
+            manager.AddOrUpdate<IBankServices>("12", (IBankServices _service) => _service.GovermentCompleteBalance(), Cron.HourInterval(1));
+            manager.AddOrUpdate<IBankServices>("13", (IBankServices _service) => _service.GovermentTaxesDayIncrease(), Cron.DayInterval(1));
+            manager.AddOrUpdate<IBankServices>("14", (IBankServices _service) => _service.DeleteImage(), Cron.DayInterval(1));
+            manager.AddOrUpdate<IBankServices>("15", (IBankServices _service) => _service.PrepareAllMoney(), Cron.DayInterval(1));
+            manager.AddOrUpdate<IBankServices>("16", (IBankServices _service) => _service.RefreshAds(), Cron.HourInterval(12));
+            manager.AddOrUpdate<IBankServices>("17", (IBankServices _service) => _service.NewsDays(), Cron.DayInterval(1));
+            manager.AddOrUpdate<IBankServices>("18", (IBankServices _service) => _service.FixBug(), Cron.DayInterval(1));
         }
     }
 
@@ -260,6 +264,15 @@ namespace KeklandBankSystem
         [JsonProperty("secret")]
         public string Secret { get; set; }
     }
+
+    public class HanfFireAuthFilter : IDashboardAuthorizationFilter
+    {
+        public bool Authorize(DashboardContext context)
+        {
+            return true;
+        }
+    }
+
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public class AdminFilterIdenty : Attribute, IAsyncAuthorizationFilter
