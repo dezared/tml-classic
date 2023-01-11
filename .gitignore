@@ -132,3 +132,7 @@ $RECYCLE.BIN/
 
 _NCrunch*
 docker-compose.override.yml
+
+.env
+
+.vs/

@@ -26,6 +26,8 @@ services:
       - API_ConnectionString=${API_ConnectionString}
       - API_Environment=${API_Environment}
       - API_HangFireUrling=${API_HangFireUrling}
+      - VkConnect_AppId=${VkConnect_AppId}
+      - VkConnect_SecretKey=${VkConnect_SecretKey}
     networks:
       - rival-politics-core-network
       - tml-classic-network
