@@ -29,8 +29,6 @@ services:
     networks:
       - rival-politics-core-network
       - tml-classic-network
-    ports:
-      - 5001:5001
 
 volumes:
   tml-classic-volume:
