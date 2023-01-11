@@ -1,1 +1,38 @@
-version: '3.8'
+version: '3.4'
+
+services:
+  tml-classic-db:
+    container_name: tml-classic-db
+    image: postgres:latest
+    ports:
+      - ${DB_PORT}:5432
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
+    restart: always
+
+  tml-classic-api:
+    image: dezare/tml-classic
+    container_name: tml-classic-api
+    depends_on:
+      - tml-classic-db
+    build:
+      context: .
+      dockerfile: KeklandBankSystem/Dockerfile
+    environment:
+      - API_ConnectionString=${API_ConnectionString}
+      - API_Environment=${API_Environment}
+      - API_HangFireUrling=${API_HangFireUrling}
+
+    ports:
+      - 5001:80
+
+volumes:
+  tml-classic-volume:
+    external: true
+
+networks: 
+  default: 
+    external: 
+      name: rival-politics-core-network

@@ -1,46 +1,22 @@
-name: Build docker-file and push Heroku [ TEST conf. ]
+name: Deploy TML Classic Web Host
 
 on:
   push:
-    branches: [dev]
+    branches: [prod]
 
 jobs:
-  build_and_push:
+  publis-service-resolver:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout the repo
+      - name: Checkout repo
         uses: actions/checkout@v2
 
-      - name: Create Container
-        uses: isbang/compose-action@v1.1.0
+      - name: Send sync-script to remote host 
+        uses: appleboy/ssh-action@v0.1.7
         with:
-          compose-file: "./docker-compose.test.yml"
-        env:
-          POSTGRES_USER: ${POSTGRES_USER}
-          POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-          POSTGRES_DB: ${POSTGRES_DB}
-          ConnectionStrings_Develop: ${ConnectionStrings_Develop}
-          ConnectionStrings_TestDbKekbk: ${ConnectionStrings_TestDbKekbk}
-          ConnectionStrings_DbKekbk: ${ConnectionStrings_DbKekbk}
-          VkConnect_AppId: ${VkConnect_AppId}
-          VkConnect_SecretKey: ${VkConnect_SecretKey}
-          VkConnect_ServiceSecretKey: ${VkConnect_ServiceSecretKey}
-
-      - name: Informatiion
-        run: docker ps -a
-
-      - name: Login to Heroku Container registry
-        env: 
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login
-
-      - name: Tags [ 1 / 2 ]
-        run: docker tag tml-classic-api registry.heroku.com/tml-classic-test/web
-      
-      - name: Tags [ 2 / 2 ]
-        run: docker push registry.heroku.com/tml-classic-test/web
-
-      - name: Release
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release -a tml-classic-test web 
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            bash <(curl -s https://raw.githubusercontent.com/rival-politics/rival-politic/main/service-hub/tml-classic/tml-classic-registry.sh)

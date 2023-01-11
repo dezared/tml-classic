@@ -64,7 +64,7 @@ namespace KeklandBankSystem
             services.AddControllersWithViews();
             services.AddEntityFrameworkNpgsql()
                 .AddDbContext<BankContext>(options =>
-                    options.UseNpgsql(Environment.GetEnvironmentVariable($"ConnectionStrings_{Program.SystemConfiguration}"))
+                    options.UseNpgsql(Environment.GetEnvironmentVariable("API_ConnectionString"))
                 );
 
             // Создаем новый Scope и мигрируем базу данных в нём
@@ -82,7 +82,7 @@ namespace KeklandBankSystem
             }
 
             services.AddHangfire(config =>
-                config.UsePostgreSqlStorage(Environment.GetEnvironmentVariable($"ConnectionStrings_{Program.SystemConfiguration}")));
+                config.UsePostgreSqlStorage(Environment.GetEnvironmentVariable("API_ConnectionString")));
 
             services.AddHangfireServer();
 
@@ -90,13 +90,6 @@ namespace KeklandBankSystem
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IBankServices, BankServices>();
-
-            services.AddSingleton<IVkApi>(sp =>
-            {
-                var api = new VkApi();
-                api.Authorize(new ApiAuthParams { AccessToken = Environment.GetEnvironmentVariable($"AccessToken") });
-                return api;
-            });
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -124,14 +117,14 @@ namespace KeklandBankSystem
             });
 
 
-            if (Program.systemCofnig != "PublishSystem")
+            if (Environment.GetEnvironmentVariable("API_Environment") != "Publish")
             {
                 app.UseDeveloperExceptionPage();
             }
 
             app.UseStatusCodePages();
 
-            app.UseHangfireDashboard(Environment.GetEnvironmentVariable("HangFireUrling"), new DashboardOptions
+            app.UseHangfireDashboard(Environment.GetEnvironmentVariable("API_HangFireUrling"), new DashboardOptions
             {
                 Authorization = new[] { new HanfFireAuthFilter() }
             });
@@ -297,7 +290,7 @@ namespace KeklandBankSystem
                 await _bankServices.AddUniqView(user);
             }
 
-            if (Program.systemCofnig == "TestingSystem")
+            if (Environment.GetEnvironmentVariable("API_Environment") == "Test")
             {
                 if (userPrincipal != null && user != null)
                 {

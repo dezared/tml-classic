@@ -16,10 +16,7 @@ namespace KeklandBankSystem.Infrastructure
         {
             var optionsBuilder = new DbContextOptionsBuilder<BankContext>();
 
-            var connectionstring = $"ConnectionStrings_{Program.SystemConfiguration}";
-
-            if (String.IsNullOrEmpty(connectionstring))
-                connectionstring = "Server=localhost;Database=tml-classic-database;Username=postgres;Password=admin";
+            var connectionstring = Environment.GetEnvironmentVariable("API_ConnectionString");
 
             optionsBuilder.UseNpgsql(connectionstring);
 
