@@ -25,9 +25,6 @@ services:
       - API_Environment=${API_Environment}
       - API_HangFireUrling=${API_HangFireUrling}
 
-    ports:
-      - 5001:80
-
 volumes:
   tml-classic-volume:
     external: true
