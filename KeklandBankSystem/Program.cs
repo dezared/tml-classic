@@ -29,7 +29,8 @@ namespace KeklandBankSystem
                         logger.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Error);
                         logger.AddFilter("Microsoft.EntityFrameworkCore.Query", LogLevel.Error);
 
-                    }).UseStartup<Startup>();
+                    }).UseStartup<Startup>()
+                    .UseUrls("http://localhost:5001");
                 }).Build().Run();
         }
     }
