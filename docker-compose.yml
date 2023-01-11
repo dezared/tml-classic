@@ -11,6 +11,8 @@ services:
       - POSTGRES_PASSWORD=${DB_PASS}
       - POSTGRES_DB=${DB_NAME}
     restart: always
+    networks:
+      - tml-classic-network
 
   tml-classic-api:
     image: dezare/tml-classic
@@ -24,12 +26,15 @@ services:
       - API_ConnectionString=${API_ConnectionString}
       - API_Environment=${API_Environment}
       - API_HangFireUrling=${API_HangFireUrling}
+    networks:
+      - rival-politics-core-network
+      - tml-classic-network
 
 volumes:
   tml-classic-volume:
     external: true
 
 networks: 
-  default: 
-    external: 
-      name: rival-politics-core-network
+  rival-politics-core-network:
+    external: true
+  tml-classic-network:
