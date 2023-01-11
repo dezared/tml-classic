@@ -6,6 +6,8 @@ services:
     image: postgres:latest
     ports:
       - ${DB_PORT}:5432
+    networks:
+      - tml-classic-network  
     environment:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASS}
@@ -26,6 +28,7 @@ services:
       - API_HangFireUrling=${API_HangFireUrling}
     networks:
       - rival-politics-core-network
+      - tml-classic-network
     ports:
       - 5001:5001
 
@@ -36,3 +39,4 @@ volumes:
 networks:
   rival-politics-core-network:
     external: true
+  tml-classic-network:  
