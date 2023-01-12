@@ -34,6 +34,12 @@ services:
       - tml-classic-network
     ports:
       - 5001:5001
+    volumes:
+      - ./KeklandBankSystem/wwwroot/user_img:/wwwroot/user_img
+      - ./KeklandBankSystem/wwwroot/userImages:/wwwroot/userImages
+      - ./KeklandBankSystem/wwwroot/userImagesAds:/wwwroot/userImagesAds
+      - ./KeklandBankSystem/wwwroot/userImagesStatic:/wwwroot/userImagesStatic
+      - ./KeklandBankSystem/wwwroot/userImagesTicket:/wwwroot/userImagesTicket
 
 volumes:
   tml-classic-volume:
