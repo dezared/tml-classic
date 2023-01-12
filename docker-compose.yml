@@ -7,7 +7,8 @@ services:
     ports:
       - ${DB_PORT}:5432
     networks:
-      - tml-classic-network  
+      - tml-classic-network 
+      - rival-politics-core-database-network  
     environment:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASS}
@@ -41,4 +42,6 @@ volumes:
 networks:
   rival-politics-core-network:
     external: true
-  tml-classic-network:  
+  rival-politics-core-database-network:
+    external: true    
+  tml-classic-network:
