@@ -74,7 +74,7 @@ namespace KeklandBankSystem
                     },
                     new PermissionAdmin()
                     {
-                        RoleName = "Administartor",
+                        RoleName = "Administrator",
                         AddItemUser = true,
                         ChangeOrganizationEconomy = true,
                         ChangeOrganizationInfo = true,

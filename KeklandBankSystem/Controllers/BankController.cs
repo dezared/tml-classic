@@ -347,19 +347,19 @@ namespace KeklandBankSystem.Controllers
 
                 var list = new List<ShopItem>();
 
-                if (num >= 0 && 70000 >= num) // default
+                if (num is >= 0 and <= 70000) // default
                 {
                     list = await _bankServices.GetItemForType(0);
                 }
-                else if (num > 70000 && 99000 >= num) // дорогое
+                else if (num is > 70000 and <= 99000) // дорогое
                 {
                     list = await _bankServices.GetItemForType(1);
                 }
-                else if (num > 99000 && 99500 >= num) // редкое
+                else if (num is > 99000 and <= 99500) // редкое
                 {
                     list = await _bankServices.GetItemForType(2);
                 }
-                else if (num > 99500 && 99990 >= num) // epic 
+                else if (num is > 99500 and <= 99990) // epic 
                 {
                     list = await _bankServices.GetItemForType(3);
                 }
@@ -1556,7 +1556,7 @@ namespace KeklandBankSystem.Controllers
                     BankId1 = org.Id,
                     Value = money,
                     Date = _bankServices.NowDateTime(),
-                    Text = "Обмен коинов на Кеклары"
+                    Text = "Обмен коинов на Мемлары"
                 });
 
                 org.Balance -= money;
@@ -2137,7 +2137,7 @@ namespace KeklandBankSystem.Controllers
 
             if (perm.ChangeUserInfo || perm.ChangeUserEconomy)
             {
-                if (userUpdate.Money <= 0)
+                if (userUpdate.Money < 0)
                 {
                     ModelState.AddModelError("", "Неверное количество денег.");
                     return View(userUpdate);
@@ -2170,7 +2170,7 @@ namespace KeklandBankSystem.Controllers
 
                 if(roleEditor)
                 {
-                    var userRole = await _bankServices.GetUserRoleEntity(user);
+                    var userRole = await _bankServices.GetUserRoleEntity(updaterUser);
                     userRole.RoleName = userUpdate.Role;
                     await _bankServices.SaveRole(userRole);
                 }
@@ -2516,7 +2516,7 @@ namespace KeklandBankSystem.Controllers
 
                     if (newleaderAdminGov != null)
                     {
-                        if (model.TaxesForOrganization >= 0 && model.TaxesForOrganization <= 30)
+                        if (model.TaxesForOrganization is >= 0 and <= 30)
                         {
                             if (model.ImageUrlCover != null || !String.IsNullOrEmpty(model.ImageStringUrlCover))
                             {
@@ -2839,7 +2839,7 @@ namespace KeklandBankSystem.Controllers
             {
                 if (perm.ChangeOrganizationEconomy || org.AdminId == user.Id || org.Zam1Name == user.Id || org.Zam2Name == user.Id)
                 {
-                    var search = (await _bankServices.GetOrganizations()).Where(m => m.Name.ToLower() == model.OrgName.ToLower()).FirstOrDefault();
+                    var search = (await _bankServices.GetOrganizations()).FirstOrDefault(m => m.Name.ToLower() == model.OrgName.ToLower());
 
                     if(search == null)
                     {
@@ -3546,7 +3546,7 @@ namespace KeklandBankSystem.Controllers
             {
                 var list = await _bankServices.GetAllProjectEntity();
 
-                if (list != null && list.Count > 0)
+                if (list is { Count: > 0 })
                 {
                     var proj = list.First();
                     var lastTicketUser = await _bankServices.GetEntityTicketInformation(proj.CreatorId);
@@ -3728,7 +3728,7 @@ namespace KeklandBankSystem.Controllers
             {
                 var list = await _bankServices.GetAllOrganizationEntity();
 
-                if (list != null && list.Count > 0)
+                if (list is { Count: > 0 })
                 {
                     var org = list.First();
                     var lastTicketUser = await _bankServices.GetEntityTicketInformation(org.CreatorId);
@@ -3910,7 +3910,7 @@ namespace KeklandBankSystem.Controllers
             {
                 var list = await _bankServices.GetAllGovermentEntity();
 
-                if (list != null && list.Count > 0)
+                if (list is { Count: > 0 })
                 {
                     var gov = list.First();
                     var lastTicketUser = await _bankServices.GetEntityTicketInformation(gov.CreatorId);
@@ -4728,7 +4728,7 @@ namespace KeklandBankSystem.Controllers
 
                             await _bankServices.DeletePassCode(passcode);
 
-                            return RedirectToAction("ActiveCode", "Bank", new { message = "Поздравляю, вы получили Кеклары в количестве: '" + passcode.Value });
+                            return RedirectToAction("ActiveCode", "Bank", new { message = "Поздравляю, вы получили Мемлары в количестве: '" + passcode.Value });
 
                         case "type_item":
                             var item = await _bankServices.GetShopItem(Convert.ToInt32(passcode.Value));
@@ -4736,7 +4736,7 @@ namespace KeklandBankSystem.Controllers
 
                             await _bankServices.DeletePassCode(passcode);
 
-                            return RedirectToAction("ActiveCode", "Bank", new { message = "Поздравляю, вы получили предмет: '" + item.Name + " ( Цена: " + item.Price + " Кеклар. )" });
+                            return RedirectToAction("ActiveCode", "Bank", new { message = "Поздравляю, вы получили предмет: '" + item.Name + " ( Цена: " + item.Price + " Мемлар. )" });
 
                         case "type_premium":
                             user.PremiumDay += Convert.ToInt32(passcode.Value);
@@ -4774,7 +4774,7 @@ namespace KeklandBankSystem.Controllers
                             await _bankServices.UpdateUser(user);
                             await _bankServices.DeletePassCode(passcode);
 
-                            return RedirectToAction("ActiveCode", "Bank", new { message = "Поздравляю, вы получили случайное количество Кеклар: '" + money });
+                            return RedirectToAction("ActiveCode", "Bank", new { message = "Поздравляю, вы получили случайное количество Мемлар: '" + money });
 
                         default:
                             return RedirectToAction("ActiveCode", "Bank", new { message = "Нерабочий промокод. ( ошибка типа )" });
@@ -4862,7 +4862,7 @@ namespace KeklandBankSystem.Controllers
             var user = await _bankServices.GetUser();
             var isprem = _bankServices.UserHavePremium(user);
 
-            if (model.Value > 0 && model.Value < 1489)
+            if (model.Value is > 0 and < 1489)
             {
                 int value = 0;
 
@@ -5149,7 +5149,7 @@ namespace KeklandBankSystem.Controllers
                 }
                 else ModelState.AddModelError("", "Пользователь с таким именем уже существует.");
                 //}
-                //else ModelState.AddModelError("", "Неверный номер гражданства Изгоев Кеков.");
+                //else ModelState.AddModelError("", "Неверный номер гражданства Изгоев Мемов.");
             }
             return View(model);
         }*/

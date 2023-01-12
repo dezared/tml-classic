@@ -34,7 +34,7 @@
         </div>
         <div class="align-center money-block">
             <p class="mega-money">@Model.user.Money.ToString("N0")</p>
-            <span class="mini-money">Кекларов</span>
+            <span class="mini-money">Мемларов</span>
         </div>
 
         @if (Model.user.IsArrested)
@@ -94,7 +94,7 @@
                                     }
                                 </td>
                                 <td>
-                                    - @Html.Raw(IntTransform.ConvertInt(trans.Value)) Кеклар
+                                    - @Html.Raw(IntTransform.ConvertInt(trans.Value)) Мемлар
                                 </td>
                             </tr>
                         }
@@ -121,7 +121,7 @@
                                     }
                                 </td>
                                 <td>
-                                    + @Html.Raw(IntTransform.ConvertInt(trans.Value)) Кеклар
+                                    + @Html.Raw(IntTransform.ConvertInt(trans.Value)) Мемлар
                                 </td>
                             </tr>
                         }

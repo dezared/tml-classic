@@ -136,7 +136,7 @@
             </div>
             <div class="align-center money-block">
                 <p class="mega-money">@Model.organization.Balance.ToString("N0")</p>
-                <span class="mini-money">Кекларов</span>
+                <span class="mini-money">Мемларов</span>
                 @if (user != null)
                 {
                     var job = await _BankServices.GetUserJob(user, new Organization() { Id = Model.organization.Id });
@@ -166,7 +166,7 @@
                         if (user.Id == Model.organization.AdminId || perm.ChangeOrganizationEconomy)
                         {
                             <div style="margin-top: 25px">
-                                <p>Финансирование: @Model.organization.Influence.ToString("N0") Кеклар</p>
+                                <p>Финансирование: @Model.organization.Influence.ToString("N0") Мемлар</p>
                             </div>
                         }
                     }
@@ -233,7 +233,7 @@
                                     </a>
                                     <div class="wpg-list-info-block">
                                         <p class="post-item-text">@lot.Short_Desc</p>
-                                        <p class="post-item-date"><i class="fas fa-comment-alt-dollar"></i> Стоимость @price.ToString("N0") Кеклар</p>
+                                        <p class="post-item-date"><i class="fas fa-comment-alt-dollar"></i> Стоимость @price.ToString("N0") Мемлар</p>
                                         <p class="post-item-date"><i class="fas fa-caret-square-right"></i> Редкость: <span class="text-rare-@lot.RareType">@type</span></p>
                                         <p class="post-item-date">Добавил: УДАЛЕНО</p>
                                         <p class="post-item-date">Осталось: @lot.Value Шт.</p>
@@ -257,7 +257,7 @@
                                 </a>
                                 <div class="wpg-list-info-block">
                                     <p class="post-item-text">@lot.Short_Desc</p>
-                                    <p class="post-item-date"><i class="fas fa-comment-alt-dollar"></i> Стоимость @price.ToString("N0") Кеклар</p>
+                                    <p class="post-item-date"><i class="fas fa-comment-alt-dollar"></i> Стоимость @price.ToString("N0") Мемлар</p>
                                     <p class="post-item-date"><i class="fas fa-caret-square-right"></i> Редкость: <span class="text-rare-@lot.RareType">@type</span></p>
                                     <p class="post-item-date">Добавил: @org.Name</p>
                                     <p class="post-item-date">Осталось: @lot.Value Шт.</p>
@@ -318,7 +318,7 @@
                                     }
                                 </td>
                                 <td>
-                                    - @Html.Raw(IntTransform.ConvertInt(trans.Value)) Кеклар
+                                    - @Html.Raw(IntTransform.ConvertInt(trans.Value)) Мемлар
                                 </td>
                             </tr>
                         }
@@ -345,7 +345,7 @@
                                     }
                                 </td>
                                 <td>
-                                    + @Html.Raw(IntTransform.ConvertInt(trans.Value)) Кеклар
+                                    + @Html.Raw(IntTransform.ConvertInt(trans.Value)) Мемлар
                                 </td>
                             </tr>
                         }
