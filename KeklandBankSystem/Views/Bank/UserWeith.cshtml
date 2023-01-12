@@ -8,7 +8,7 @@
     var myLevel = BankServices.WeithFormula(Model.MyLevel.Id);
     var nextLevel = BankServices.WeithFormula(Model.MyLevel.Id + 1);
 
-    float percemtal = (float)(Model.Weith - myLevel) / (float)(nextLevel - myLevel) * 100.0f;
+    var percemtal = (float)(Model.Weith - myLevel) / (float)(nextLevel - myLevel) * 100.0f;
 
 }
 

@@ -12,7 +12,7 @@
         <div class="block-container name-container c-white">
             <h1 class="c-title text-normal">Покупки пользователя @Html.Raw(_BankServices.CompleteUserName(Model.user))</h1>
         </div>
-        @if (!String.IsNullOrEmpty(Model.Message))
+        @if (!string.IsNullOrEmpty(Model.Message))
         {
             @if (Model.TypeMessage)
             {

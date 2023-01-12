@@ -20,17 +20,14 @@
 
         <p class="text-marg">
             <div class="box image-max">
-                @if (Model.ImagesUrl != null)
+                @if (Model.ImagesUrl is {Count: > 0 })
                 {
-                    @if (Model.ImagesUrl.Count > 0)
+                    foreach (var s in Model.ImagesUrl)
                     {
-                        @foreach (var s in Model.ImagesUrl)
-                        {
-                            <img src="@s" />
-                        }
+                        <img src="@s" />
                     }
                 }
-                 <div>
+                <div>
                      Сообщение: @Html.Raw(Model.ticket.Text)
                      <span class="money-trans">
                          Количество: @Model.ticket.Value

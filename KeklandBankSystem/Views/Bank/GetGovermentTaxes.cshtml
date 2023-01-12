@@ -6,7 +6,7 @@
 
     var orglist = await _BankServices.GetGovermentOrganization(Model.Id);
 
-    int money = 0;
+    var money = 0;
 
     if (Model.DaysGovermentTaxes == 0)
     {

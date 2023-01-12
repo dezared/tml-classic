@@ -151,7 +151,7 @@
 
         <div class="navigatin-block">
             <div class="nav-inner">
-                @for (int a = 1; a <= ViewBag.CountPage; a++)
+                @for (var a = 1; a <= ViewBag.CountPage; a++)
                 {
                     @if (a == @ViewBag.CurrectPage)
                     {

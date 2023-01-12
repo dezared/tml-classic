@@ -3,7 +3,7 @@
     ViewData["Title"] = "ТМЛ | Проверка новостей";
     Layout = "/Views/_Layout.cshtml";
 
-    var count = (await _BankServices.GetAllNews()).Where(m => m.Type == "type_timing").Count();
+    var count = (await _BankServices.GetAllNews()).Count(m => m.Type == "type_timing");
 }
 
 <div class="box">

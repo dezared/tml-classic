@@ -43,7 +43,7 @@ namespace KeklandBankSystem.Controllers
             var text = message.Text.Replace("[club191094689|@kekland_bank] ", "").Replace("[club191094689|Мемцарская Республика] ", "");
 
             var ret = -1;
-            EasyText rets = new EasyText();
+            var rets = new EasyText();
 
             var args = text.Split(" ");
 
@@ -124,7 +124,7 @@ namespace KeklandBankSystem.Controllers
             var message = Message.FromJson(vkResponse);
             var user = _vkApi.Users.Get(new long[] { (long)message.FromId }).FirstOrDefault();
 
-            MessageSender ms = new MessageSender(_vkApi, updates);
+            var ms = new MessageSender(_vkApi, updates);
 
             var et = ms.EasyText();
 

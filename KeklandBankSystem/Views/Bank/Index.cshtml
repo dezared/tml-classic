@@ -67,8 +67,8 @@
                     <div style="display: flex;">
                         <div style="flex: 1" class="index-stat-outer">
                             @{
-                                int a = 0;
-                                string[] str = new string[3];
+                                var a = 0;
+                                var str = new string[3];
                             }
 
                             @foreach (var gov in topgov)
@@ -299,7 +299,7 @@
 
         <div class="navigatin-block">
             <div class="nav-inner">
-                @for (int pg = 1; pg <= ViewBag.CountPage; pg++)
+                @for (var pg = 1; pg <= ViewBag.CountPage; pg++)
                 {
                     @if (pg == @ViewBag.CurrectPage)
                     {
@@ -313,6 +313,5 @@
             </div>
         </div>
     </div>
-</div>
 
 

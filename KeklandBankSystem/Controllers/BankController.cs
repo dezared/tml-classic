@@ -48,8 +48,8 @@ namespace KeklandBankSystem.Controllers
         {
             var govs = (await _bankServices.GetAllGoverments()).OrderByDescending(m => m.AllOrganizationBalance).ToList();
 
-            int itemOnPage = 15;
-            int maxPage = (govs.Count() / itemOnPage) + ((govs.Count() % itemOnPage) > 0 ? 1 : 0);
+            var itemOnPage = 15;
+            var maxPage = (govs.Count() / itemOnPage) + ((govs.Count() % itemOnPage) > 0 ? 1 : 0);
 
             if (page == null || page < 1 || page > maxPage)
             {
@@ -99,7 +99,7 @@ namespace KeklandBankSystem.Controllers
                     MiniText = model.MiniText
                 };
 
-                if (model.ImageUrl != null || !String.IsNullOrEmpty(model.ImageUrlString))
+                if (model.ImageUrl != null || !string.IsNullOrEmpty(model.ImageUrlString))
                 {
                     if (model.ImageUrl != null)
                     {
@@ -539,8 +539,8 @@ namespace KeklandBankSystem.Controllers
                     return View(model);
                 }
 
-                float stavka = await _bankServices.GetStavka();
-                int nalog = 3;
+                var stavka = await _bankServices.GetStavka();
+                var nalog = 3;
 
                 if (model.Value > 100)
                 {
@@ -684,13 +684,13 @@ namespace KeklandBankSystem.Controllers
             {
                 if (perm.EditZamOrg || user.Id == org.AdminId)
                 {
-                    if (model.Zam1 == model.Zam2 && !String.IsNullOrEmpty(model.Zam1))
+                    if (model.Zam1 == model.Zam2 && !string.IsNullOrEmpty(model.Zam1))
                     {
                         ModelState.AddModelError("", "Одинковые ники.");
                         return View(model);
                     }
 
-                    if (String.IsNullOrEmpty(model.Zam1))
+                    if (string.IsNullOrEmpty(model.Zam1))
                     {
                         org.Zam1Name = 0;
                     }
@@ -707,7 +707,7 @@ namespace KeklandBankSystem.Controllers
                         org.Zam1Name = zam1.Id;
                     }
 
-                    if (String.IsNullOrEmpty(model.Zam2))
+                    if (string.IsNullOrEmpty(model.Zam2))
                     {
                         org.Zam2Name = 0;
                     }
@@ -799,7 +799,7 @@ namespace KeklandBankSystem.Controllers
 
                         org.AdminId = adminUser.Id;
 
-                        string status = "";
+                        var status = "";
 
                         if (model.NewStatus == "Заморожено")
                         {
@@ -817,7 +817,7 @@ namespace KeklandBankSystem.Controllers
                         org.Status = status;
                     }
 
-                    if (model.ImageUrl != null || !String.IsNullOrEmpty(model.ImageStringUrl))
+                    if (model.ImageUrl != null || !string.IsNullOrEmpty(model.ImageStringUrl))
                     {
 
                         if (model.ImageUrl != null)
@@ -972,7 +972,7 @@ namespace KeklandBankSystem.Controllers
                         GovermentId = gov.Id
                     };
 
-                    if (model.ImageUrl != null || !String.IsNullOrEmpty(model.ImageStringUrl))
+                    if (model.ImageUrl != null || !string.IsNullOrEmpty(model.ImageStringUrl))
                     {
 
                         if (model.ImageUrl != null)
@@ -1113,7 +1113,7 @@ namespace KeklandBankSystem.Controllers
                     return View(model);
                 }
 
-                if (String.IsNullOrEmpty(model.Name))
+                if (string.IsNullOrEmpty(model.Name))
                 {
                     ModelState.AddModelError("", "Неверное имя.");
                     return View(model);
@@ -1249,7 +1249,7 @@ namespace KeklandBankSystem.Controllers
 
             try
             {
-                int maxNum = 100000;
+                var maxNum = 100000;
 
                 var gov = await _bankServices.GetGoverment();
 
@@ -1302,7 +1302,7 @@ namespace KeklandBankSystem.Controllers
 
                     var separator = (maxNum / 100) * procent; // диапазон
 
-                    float win = 100 / predprocent * sum;
+                    var win = 100 / predprocent * sum;
 
                     if (exhange == separator)
                         exhange++;
@@ -1701,7 +1701,7 @@ namespace KeklandBankSystem.Controllers
                 Target = model.Target,
             };
 
-            if (model.ImageUrl != null || !String.IsNullOrEmpty(model.ImageStringUrl))
+            if (model.ImageUrl != null || !string.IsNullOrEmpty(model.ImageStringUrl))
             {
 
                 if (model.ImageUrl != null)
@@ -1829,8 +1829,8 @@ namespace KeklandBankSystem.Controllers
         {
             var user = await _bankServices.GetUser();
 
-            int price = 200000;
-            int fin = 5000;
+            var price = 200000;
+            var fin = 5000;
 
             if (_bankServices.UserHavePremium(user))
             {
@@ -1853,7 +1853,7 @@ namespace KeklandBankSystem.Controllers
                     GovermentId = -1
                 };
 
-                if (model.ImageUrl != null || !String.IsNullOrEmpty(model.ImageStringUrl))
+                if (model.ImageUrl != null || !string.IsNullOrEmpty(model.ImageStringUrl))
                 {
 
                     if (model.ImageUrl != null)
@@ -1928,8 +1928,8 @@ namespace KeklandBankSystem.Controllers
                 return View(model);
             }
 
-            float stavka = await _bankServices.GetStavka();
-            int nalog = 3;
+            var stavka = await _bankServices.GetStavka();
+            var nalog = 3;
 
             if (model.Value > 100)
             {
@@ -2003,7 +2003,7 @@ namespace KeklandBankSystem.Controllers
                     return View(model);
                 }
 
-                string status = "";
+                var status = "";
 
                 if (model.NewStatus == "Заморожено")
                 {
@@ -2031,7 +2031,7 @@ namespace KeklandBankSystem.Controllers
 
                 };
 
-                if (model.ImageUrl != null || !String.IsNullOrEmpty(model.ImageStringUrl))
+                if (model.ImageUrl != null || !string.IsNullOrEmpty(model.ImageStringUrl))
                 {
 
                     if (model.ImageUrl != null)
@@ -2143,7 +2143,7 @@ namespace KeklandBankSystem.Controllers
                     return View(userUpdate);
                 }
 
-                if (String.IsNullOrEmpty(userUpdate.Name))
+                if (string.IsNullOrEmpty(userUpdate.Name))
                 {
                     ModelState.AddModelError("", "Неккоректное имя.");
                     return View(userUpdate);
@@ -2422,7 +2422,7 @@ namespace KeklandBankSystem.Controllers
                     var orgList = await _bankServices.GetGovermentOrganization(gov.Id);
                     var mainOrg = await _bankServices.GetOrganizations(gov.MainOrganizationGovermentId);
 
-                    int money = 0;
+                    var money = 0;
 
                     foreach (var s in orgList.Where(m => m.Id != gov.MainOrganizationGovermentId).ToList())
                     {
@@ -2518,7 +2518,7 @@ namespace KeklandBankSystem.Controllers
                     {
                         if (model.TaxesForOrganization is >= 0 and <= 30)
                         {
-                            if (model.ImageUrlCover != null || !String.IsNullOrEmpty(model.ImageStringUrlCover))
+                            if (model.ImageUrlCover != null || !string.IsNullOrEmpty(model.ImageStringUrlCover))
                             {
                                 if (model.ImageUrlCover != null)
                                 {
@@ -2541,7 +2541,7 @@ namespace KeklandBankSystem.Controllers
                                 else gov.ImageCoverUrl = model.ImageStringUrlCover;
                             }
 
-                            if (model.ImageUrlFlag != null || !String.IsNullOrEmpty(model.ImageStringUrlFlag))
+                            if (model.ImageUrlFlag != null || !string.IsNullOrEmpty(model.ImageStringUrlFlag))
                             {
                                 if (model.ImageUrlFlag != null)
                                 {
@@ -2709,7 +2709,7 @@ namespace KeklandBankSystem.Controllers
                 item.MiniText = model.MiniText;
                 item.HtmlText = model.HtmlText;
 
-                if (model.ImageUrl != null || !String.IsNullOrEmpty(model.ImageUrlString))
+                if (model.ImageUrl != null || !string.IsNullOrEmpty(model.ImageUrlString))
                 {
                     if (model.ImageUrl != null)
                     {
@@ -2923,9 +2923,9 @@ namespace KeklandBankSystem.Controllers
                     Date = _bankServices.NowDateTime()
                 };
 
-                if (model.ImageUrl != null || !String.IsNullOrEmpty(model.ImageStringUrl))
+                if (model.ImageUrl != null || !string.IsNullOrEmpty(model.ImageStringUrl))
                 {
-                    if (model.ImageUrl.Count() > 0)
+                    if (model.ImageUrl.Any())
                     {
                         if (model.ImageUrl.Count() > 5)
                         {
@@ -2933,7 +2933,7 @@ namespace KeklandBankSystem.Controllers
                             return View(model);
                         }
 
-                        string str = "";
+                        var str = "";
                         foreach (var image in model.ImageUrl)
                         {
                             if (image.Length > 10485760) // 10mb
@@ -2954,7 +2954,7 @@ namespace KeklandBankSystem.Controllers
 
                         ticket.Images = str;
                     }
-                    else ticket.Images = String.Join(";", model.ImageStringUrl.Split(';').Where(m => !String.IsNullOrEmpty(m)).ToList()) + ";";
+                    else ticket.Images = string.Join(";", model.ImageStringUrl.Split(';').Where(m => !string.IsNullOrEmpty(m)).ToList()) + ";";
                 }
 
                 await _bankServices.CreateTicket(ticket);
@@ -3115,7 +3115,7 @@ namespace KeklandBankSystem.Controllers
             {
                 var ticket = await _bankServices.GetLastTicket();
 
-                CheckTicketModel model = new CheckTicketModel() { };
+                var model = new CheckTicketModel() { };
 
                 if (ticket != null)
                 {
@@ -3292,8 +3292,8 @@ namespace KeklandBankSystem.Controllers
                 return View(model);
             }
 
-            float stavka = await _bankServices.GetStavka();
-            int nalog = 3;
+            var stavka = await _bankServices.GetStavka();
+            var nalog = 3;
 
             if (model.Value > 100)
             {
@@ -3465,7 +3465,7 @@ namespace KeklandBankSystem.Controllers
                     return View(model);
                 }
 
-                if (model.ImageUrl != null || !String.IsNullOrEmpty(model.ImageStringUrl))
+                if (model.ImageUrl != null || !string.IsNullOrEmpty(model.ImageStringUrl))
                 {
 
                     if (model.ImageUrl != null)
@@ -3658,8 +3658,8 @@ namespace KeklandBankSystem.Controllers
             if (user != null)
             {
                 if(model.ticketProj.Target <= 0 
-                    || String.IsNullOrEmpty(model.ticketProj.ProjectName)
-                    || String.IsNullOrEmpty(model.ticketProj.Information))
+                    || string.IsNullOrEmpty(model.ticketProj.ProjectName)
+                    || string.IsNullOrEmpty(model.ticketProj.Information))
                 {
                     ModelState.AddModelError("", "Ошибка в заполнении полей.");
                     return View(model);
@@ -3673,7 +3673,7 @@ namespace KeklandBankSystem.Controllers
                     Target = model.ticketProj.Target
                 };
 
-                if (model.ImageUrl != null || !String.IsNullOrEmpty(model.ImageStringUrl))
+                if (model.ImageUrl != null || !string.IsNullOrEmpty(model.ImageStringUrl))
                 {
                     if (model.ImageUrl != null)
                     {
@@ -3853,7 +3853,7 @@ namespace KeklandBankSystem.Controllers
                     VKUrl = model.ticketOrg.VKUrl
                 };
 
-                if (model.ImageUrl != null || !String.IsNullOrEmpty(model.ImageStringUrl))
+                if (model.ImageUrl != null || !string.IsNullOrEmpty(model.ImageStringUrl))
                 {
                     if (model.ImageUrl != null)
                     {
@@ -4082,7 +4082,7 @@ namespace KeklandBankSystem.Controllers
                     VKUrl = model.ticketGov.VKUrl
                 };
 
-                if (model.ImageUrlBG != null || !String.IsNullOrEmpty(model.ImageStringUrlBG))
+                if (model.ImageUrlBG != null || !string.IsNullOrEmpty(model.ImageStringUrlBG))
                 {
                     if (model.ImageUrlBG != null)
                     {
@@ -4110,7 +4110,7 @@ namespace KeklandBankSystem.Controllers
                     return View(model);
                 }
 
-                if (model.ImageUrlFlag != null || !String.IsNullOrEmpty(model.ImageStringUrlFlag))
+                if (model.ImageUrlFlag != null || !string.IsNullOrEmpty(model.ImageStringUrlFlag))
                 {
                     if (model.ImageUrlFlag != null)
                     {
@@ -4342,7 +4342,7 @@ namespace KeklandBankSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await _bankServices.FindByNameAsync(model.Name);
+                var user = await _bankServices.FindByNameAsync(model.Name);
                 if (user == null)
                 {
                     ModelState.AddModelError("", "Некорректные логин и(или) пароль");
@@ -4375,7 +4375,7 @@ namespace KeklandBankSystem.Controllers
             {
                 ShopItemId = item.Id,
                 newSum = item.Price,
-                Count = userItem.Where(m => m.Id == item.Id).Count()
+                Count = userItem.Count(m => m.Id == item.Id)
             };
 
             return View(model);
@@ -4602,7 +4602,7 @@ namespace KeklandBankSystem.Controllers
             {
                 var item = await _bankServices.GetAllItems();
 
-                if (!String.IsNullOrEmpty(type))
+                if (!string.IsNullOrEmpty(type))
                 {
                     item = item.Where(m => m.Type == type).ToList();
                 }
@@ -4612,7 +4612,7 @@ namespace KeklandBankSystem.Controllers
                     item = item.Where(m => m.RareType == rare).ToList();
                 }
 
-                if (!String.IsNullOrEmpty(search))
+                if (!string.IsNullOrEmpty(search))
                 {
                     var search1 = item.Where(m => m.Name.ToLower().Contains(search.ToLower())).ToList();
                     var search2 = item.Where(m => m.Short_Desc.ToLower().Contains(search.ToLower())).ToList();
@@ -4621,8 +4621,8 @@ namespace KeklandBankSystem.Controllers
 
                 // page
 
-                int itemOnPage = 24;
-                int maxPage = (item.Count() / itemOnPage) + ((item.Count() % itemOnPage) > 0 ? 1 : 0);
+                var itemOnPage = 24;
+                var maxPage = (item.Count() / itemOnPage) + ((item.Count() % itemOnPage) > 0 ? 1 : 0);
 
                 if (page == null || page < 1 || page > maxPage)
                 {
@@ -4864,7 +4864,7 @@ namespace KeklandBankSystem.Controllers
 
             if (model.Value is > 0 and < 1489)
             {
-                int value = 0;
+                var value = 0;
 
                 if(isprem)
                 {
@@ -4887,7 +4887,7 @@ namespace KeklandBankSystem.Controllers
                         Url = model.Url
                     };
 
-                    if (model.ImageUrl != null || !String.IsNullOrEmpty(model.ImageStringUrl))
+                    if (model.ImageUrl != null || !string.IsNullOrEmpty(model.ImageStringUrl))
                     {
                         if (model.ImageUrl != null)
                         {
@@ -4957,10 +4957,10 @@ namespace KeklandBankSystem.Controllers
 
             var userItem = await _bankServices.GetUserItem(user);
 
-            if (model.Count > userItem.Where(m => m.Id == model.ShopItemId).Count() || model.Count <= 0)
+            if (model.Count > userItem.Count(m => m.Id == model.ShopItemId) || model.Count <= 0)
             {
                 ModelState.AddModelError("", "Неверное количество.");
-                model.Count = userItem.Where(m => m.Id == item.Id).Count();
+                model.Count = userItem.Count(m => m.Id == item.Id);
                 return View(model);
             }
 
@@ -4984,7 +4984,7 @@ namespace KeklandBankSystem.Controllers
         {
             var list = await _bankServices.GetAllItemsTrade();
 
-            if (!String.IsNullOrEmpty(type))
+            if (!string.IsNullOrEmpty(type))
             {
                 list = list.Where(m => m.item.Type == type).ToList();
             }
@@ -4998,8 +4998,8 @@ namespace KeklandBankSystem.Controllers
 
             // page
 
-            int itemOnPage = 24;
-            int maxPage = (retList.Count() / itemOnPage) + ((retList.Count() % itemOnPage) > 0 ? 1 : 0);
+            var itemOnPage = 24;
+            var maxPage = (retList.Count() / itemOnPage) + ((retList.Count() % itemOnPage) > 0 ? 1 : 0);
 
             if (page == null || page < 1 || page > maxPage)
             {
@@ -5021,7 +5021,7 @@ namespace KeklandBankSystem.Controllers
         {
             var list = await _bankServices.GetAllItems();
 
-            if (!String.IsNullOrEmpty(type))
+            if (!string.IsNullOrEmpty(type))
             {
                 list = list.Where(m => m.Type == type).ToList();
             }
@@ -5033,7 +5033,7 @@ namespace KeklandBankSystem.Controllers
 
             var retList = list.Where(m => m.isActived == true).Where(m => m.isCaseItem == false).ToList();
 
-            if (!String.IsNullOrEmpty(search))
+            if (!string.IsNullOrEmpty(search))
             {
                 var search1 = list.Where(m => m.Name.ToLower().Contains(search.ToLower())).ToList();
                 var search2 = list.Where(m => m.Short_Desc.ToLower().Contains(search.ToLower())).ToList();
@@ -5042,8 +5042,8 @@ namespace KeklandBankSystem.Controllers
 
             // page
 
-            int itemOnPage = 24;
-            int maxPage = (retList.Count() / itemOnPage) + ((retList.Count() % itemOnPage) > 0 ? 1 : 0);
+            var itemOnPage = 24;
+            var maxPage = (retList.Count() / itemOnPage) + ((retList.Count() % itemOnPage) > 0 ? 1 : 0);
 
             if (page == null || page < 1 || page > maxPage)
             {
@@ -5158,8 +5158,8 @@ namespace KeklandBankSystem.Controllers
         {
             try
             {
-                byte[] result = new byte[length];
-                for (int index = 0; index < length; index++)
+                var result = new byte[length];
+                for (var index = 0; index < length; index++)
                 {
                     result[index] = (byte)new Random().Next(33, 126);
                 }
@@ -5183,13 +5183,13 @@ namespace KeklandBankSystem.Controllers
             }
             else
             {
-                if (String.IsNullOrEmpty(model.Name) || String.IsNullOrEmpty(model.Password))
+                if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Password))
                 {
                     ModelState.AddModelError("", "Неверные данные.");
                     return View(model);
                 }
 
-                User user = new User
+                var user = new User
                 {
                     Name = model.Name,
                     Password = Crypto.HashPassword(model.Password),
@@ -5204,7 +5204,7 @@ namespace KeklandBankSystem.Controllers
                     return View(model);
                 }
 
-                if (String.IsNullOrEmpty(model.Name) || model.Name.Length > 20 || model.Name.Length < 3)
+                if (string.IsNullOrEmpty(model.Name) || model.Name.Length > 20 || model.Name.Length < 3)
                 {
                     ModelState.AddModelError("", "Максимальная длина имени: 20, минимальная 3.");
                     return View(model);
@@ -5259,8 +5259,8 @@ namespace KeklandBankSystem.Controllers
 
         public static string MD5HashPHP(string str)
         {
-            byte[] asciiBytes = ASCIIEncoding.ASCII.GetBytes(str);
-            byte[] hashedBytes = MD5CryptoServiceProvider.Create().ComputeHash(asciiBytes);
+            var asciiBytes = ASCIIEncoding.ASCII.GetBytes(str);
+            var hashedBytes = MD5CryptoServiceProvider.Create().ComputeHash(asciiBytes);
             return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
         }
 
@@ -5301,7 +5301,7 @@ namespace KeklandBankSystem.Controllers
                     return View(model);
                 }
 
-                if (String.IsNullOrEmpty(model.Name) || model.Name.Length > 20 || model.Name.Length < 3)
+                if (string.IsNullOrEmpty(model.Name) || model.Name.Length > 20 || model.Name.Length < 3)
                 {
                     ModelState.AddModelError("", "Максимальная длина имени: 20, минимальная 3.");
                     return View(model);
@@ -5309,7 +5309,7 @@ namespace KeklandBankSystem.Controllers
 
                 if (await _bankServices.FindByNameAsync(model.Name) == null || user.Name == model.Name) // Есть ли уже аккаунт с таким именем
                 {
-                    if (model.ImageUrl != null || !String.IsNullOrEmpty(model.ImageStringUrl))
+                    if (model.ImageUrl != null || !string.IsNullOrEmpty(model.ImageStringUrl))
                     {
                         if (model.ImageUrl != null)
                         {
@@ -5334,7 +5334,7 @@ namespace KeklandBankSystem.Controllers
 
                     user.Name = model.Name;
 
-                    if(!String.IsNullOrWhiteSpace(model.Password) && !String.IsNullOrWhiteSpace(model.Password))
+                    if(!string.IsNullOrWhiteSpace(model.Password) && !string.IsNullOrWhiteSpace(model.Password))
                         user.Password = Crypto.HashPassword(model.Password);
 
                     await _bankServices.UpdateUser(user); // обновляем пользователя
@@ -5378,7 +5378,7 @@ namespace KeklandBankSystem.Controllers
                 new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
             };
 
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            var id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id), new AuthenticationProperties { IsPersistent = true });
         }
@@ -5391,10 +5391,10 @@ namespace KeklandBankSystem.Controllers
             var perm = await _bankServices.GetUserPermission(user);
             if (perm.GenerateRegCodes)
             {
-                Random rnd = new Random();
-                string result = "";
+                var rnd = new Random();
+                var result = "";
 
-                for (int a = 0; a < 10; a++)
+                for (var a = 0; a < 10; a++)
                 {
                     switch (rnd.Next(0, 2))
                     {
@@ -5403,7 +5403,7 @@ namespace KeklandBankSystem.Controllers
                     }
                 }
 
-                RegCode code = new RegCode()
+                var code = new RegCode()
                 {
                     Code = result
                 };

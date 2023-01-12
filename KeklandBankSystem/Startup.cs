@@ -214,9 +214,9 @@ namespace KeklandBankSystem
                     return false;
                 }
 
-                byte[] buffer = new byte[ImageMinimumBytes];
+                var buffer = new byte[ImageMinimumBytes];
                 postedFile.OpenReadStream().Read(buffer, 0, ImageMinimumBytes);
-                string content = System.Text.Encoding.UTF8.GetString(buffer);
+                var content = System.Text.Encoding.UTF8.GetString(buffer);
                 if (Regex.IsMatch(content, @"<script|<html|<head|<title|<body|<pre|<table|<a\s+href|<img|<plaintext|<cross\-domain\-policy",
                     RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline))
                 {
@@ -276,7 +276,7 @@ namespace KeklandBankSystem
 
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            string name = (string)context.RouteData.Values["Action"];
+            var name = (string)context.RouteData.Values["Action"];
             var _bankServices = (IBankServices)context.HttpContext.RequestServices.GetService(typeof(IBankServices));
 
             var gov = await _bankServices.GetGoverment();
@@ -388,12 +388,12 @@ namespace KeklandBankSystem
         {
             try
             {
-                string pre = "<span title=" + num + ">";
-                string post = "</span>";
+                var pre = "<span title=" + num + ">";
+                var post = "</span>";
 
                 string ret;
 
-                string d = "";
+                var d = "";
                 if (num < 0)
                     d = "-";
 
@@ -422,9 +422,9 @@ namespace KeklandBankSystem
             }
             catch (Exception)
             {
-                string pre = "<span title=" + num + ">";
-                string post = "</span>";
-                string d = "";
+                var pre = "<span title=" + num + ">";
+                var post = "</span>";
+                var d = "";
                 if (num < 0)
                     d = "-";
 
@@ -469,9 +469,9 @@ namespace KeklandBankSystem
             const int MONTH = 30 * DAY;
 
             var ts = new TimeSpan(DateTime.Now.Ticks - dateTime.Ticks);
-            double delta = Math.Abs(ts.TotalSeconds);
+            var delta = Math.Abs(ts.TotalSeconds);
 
-            if (delta >= 0 && delta <= 5)
+            if (delta is >= 0 and <= 5)
             {
                 return "Только что";
             }
@@ -519,14 +519,14 @@ namespace KeklandBankSystem
 
             if (delta < 12 * MONTH)
             {
-                int months = Convert.ToInt32(Math.Floor((double)ts.Days / 30));
+                var months = Convert.ToInt32(Math.Floor((double)ts.Days / 30));
                 if (months == 1) return "Месяц назад";
-                if (months >= 2 && months <= 4) return months + " месяца назад";
+                if (months is >= 2 and <= 4) return months + " месяца назад";
                 return months + " месяцев назад";
             }
             else
             {
-                int years = Convert.ToInt32(Math.Floor((double)ts.Days / 365));
+                var years = Convert.ToInt32(Math.Floor((double)ts.Days / 365));
                 if (years == 11 || years == 12 || years == 13 || years == 14) return years + " лет назад";
                 else if ((years % 10) == 1) return years + " год назад";
                 else if ((years % 10) >= 2 && (years % 10) <= 4) return years + " года назад";

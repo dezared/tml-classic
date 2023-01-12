@@ -297,7 +297,7 @@ namespace KeklandBankSystem.Infrastructure
 
         public async Task<List<EntityTicketInformation>> GetEntityTicketInformation(int userId)
         {
-            return await bdb.EntityTicketInformations.Where(m => m.UserId == userId).OrderByDescending(m => m.Date).Take(Math.Max(45, bdb.EntityTicketInformations.Where(m => m.UserId == userId).Count())).ToListAsync();
+            return await bdb.EntityTicketInformations.Where(m => m.UserId == userId).OrderByDescending(m => m.Date).Take(Math.Max(45, bdb.EntityTicketInformations.Count(m => m.UserId == userId))).ToListAsync();
         }
 
         public async Task<List<Organization>> GetGovermentOrganization(int id)
@@ -353,7 +353,7 @@ namespace KeklandBankSystem.Infrastructure
         }
         public async Task DeleteEntityProject(int id)
         {
-            bdb.EntityTicketProjects.Remove(bdb.EntityTicketProjects.Where(m => m.Id == id).First());
+            bdb.EntityTicketProjects.Remove(bdb.EntityTicketProjects.First(m => m.Id == id));
 
             await bdb.SaveChangesAsync();
         }
@@ -372,7 +372,7 @@ namespace KeklandBankSystem.Infrastructure
         }
         public async Task DeleteEntityOrganization(int id)
         {
-            bdb.EntityTicketOrganizations.Remove(bdb.EntityTicketOrganizations.Where(m => m.Id == id).First());
+            bdb.EntityTicketOrganizations.Remove(bdb.EntityTicketOrganizations.First(m => m.Id == id));
 
             await bdb.SaveChangesAsync();
         }
@@ -391,7 +391,7 @@ namespace KeklandBankSystem.Infrastructure
         }
         public async Task DeleteEntityGoverment(int id)
         {
-            bdb.EntityTicketGoverments.Remove(bdb.EntityTicketGoverments.Where(m => m.Id == id).First());
+            bdb.EntityTicketGoverments.Remove(bdb.EntityTicketGoverments.First(m => m.Id == id));
 
             await bdb.SaveChangesAsync();
         }
@@ -424,14 +424,14 @@ namespace KeklandBankSystem.Infrastructure
 
         public async Task DeleteNews(int id)
         {
-            var item = bdb.News.Where(m => m.Id == id).First();
+            var item = bdb.News.First(m => m.Id == id);
             bdb.News.Remove(item);
             await bdb.SaveChangesAsync();
         }
 
         public async Task<int> GetAllMoneyGov(int id)
         {
-            int s = 0;
+            var s = 0;
             var govorgs = await GetGovermentOrganization(id);
 
             foreach(var model in govorgs)
@@ -552,14 +552,9 @@ namespace KeklandBankSystem.Infrastructure
 
         public List<Organization> GetTopOrganization(int col)
         {
-            if (bdb.Organizations.Count() >= col)
-            {
-                return bdb.Organizations.Where(m => String.IsNullOrEmpty(m.SpecialId)).OrderByDescending(m => m.Balance).ToList().GetRange(0, col);
-            }
-            else
-            {
-                return bdb.Organizations.Where(m => String.IsNullOrEmpty(m.SpecialId)).OrderByDescending(m => m.Balance).ToList();
-            }
+            return bdb.Organizations.Count(m => string.IsNullOrEmpty(m.SpecialId)) >= col 
+                ? bdb.Organizations.Where(m => string.IsNullOrEmpty(m.SpecialId)).OrderByDescending(m => m.Balance).Take(col).ToList()
+                : bdb.Organizations.Where(m => string.IsNullOrEmpty(m.SpecialId)).OrderByDescending(m => m.Balance).ToList();
         }
 
         public async Task DeleteImageSysAndFile(string path)
@@ -590,6 +585,7 @@ namespace KeklandBankSystem.Infrastructure
         public async Task UpdateItemStatistic(ItemStatistic item)
         {
             bdb.ItemStatistics.Update(item);
+            bdb.Entry<ItemStatistic>(item).State = EntityState.Modified;
             await bdb.SaveChangesAsync();
         }
 
@@ -628,22 +624,14 @@ namespace KeklandBankSystem.Infrastructure
 
         public static int WeithFormula(int x)
         {
-            int y = 0;
-            switch (x)
+            var y = x switch
             {
-                case int i when i > 21:
-                    y = Convert.ToInt32(50 * Math.Pow(1.63, (double)x));
-                    break;
-                case int i when i >= 8 && i <= 21:
-                    y = 5 * (int)Math.Pow(2, x);
-                    break;
-                case int i when i >= 4 && i < 8:
-                    y = 12 * x * 10;
-                    break;
-                case int i when i < 4:
-                    y = 6 * x * 10;
-                    break;
-            }
+                int i when i > 21 => Convert.ToInt32(50 * Math.Pow(1.63, (double)x)),
+                int i when i is >= 8 and <= 21 => 5 * (int)Math.Pow(2, x),
+                int i when i is >= 4 and < 8 => 12 * x * 10,
+                int i when i < 4 => 6 * x * 10,
+                _ => 0
+            };
             return y;
         }
 
@@ -670,8 +658,8 @@ namespace KeklandBankSystem.Infrastructure
 
             foreach(var a in list)
             {
-                int y = 0;
-                int x = a.Id;
+                var y = 0;
+                var x = a.Id;
 
                 y = WeithFormula(x);
 
@@ -822,7 +810,7 @@ namespace KeklandBankSystem.Infrastructure
         {
             var rabota = bdb.OrgJobUser.AsNoTracking().Where(m => m.UserId == user.Id).ToList();
 
-            if (rabota.Count() > 0)
+            if (rabota.Any())
             {
                 var list = new List<OrgJob>();
                 foreach (var r in rabota)
@@ -880,8 +868,7 @@ namespace KeklandBankSystem.Infrastructure
 
         public bool UserHavePremium(User user)
         {
-            if (user.PremiumDay > 0) return true;
-                return false;
+            return user.PremiumDay > 0;
         }
 
         public async Task<List<ShopItem>> GetUserItem(User user)
@@ -958,7 +945,7 @@ namespace KeklandBankSystem.Infrastructure
             if(item.RareType == 4)
             {
                 var m = await GetUserItem(user);
-                if (m.Where(s => s.RareType == 4).Count() == 1)
+                if (m.Count(s => s.RareType == 4) == 1)
                 {
                     user.HaveLegendary = false;
                     await UpdateUser(user);
@@ -1012,7 +999,7 @@ namespace KeklandBankSystem.Infrastructure
 
         public async Task DeleteOrgJobUser(OrgJob job, User user)
         {
-            var a = bdb.OrgJobUser.AsNoTracking().Where(m => m.OrgJobId == job.Id).Where(m => m.UserId == user.Id).First();
+            var a = bdb.OrgJobUser.AsNoTracking().Where(m => m.OrgJobId == job.Id).First(m => m.UserId == user.Id);
 
             bdb.OrgJobUser.Remove(a);
             await bdb.SaveChangesAsync();
@@ -1027,7 +1014,7 @@ namespace KeklandBankSystem.Infrastructure
 
         public string CompleteUserName(User user)
         {
-            string res = "<a href=\"/user/balance/" + user.Id + "\" class=\"user-outer\"><div class=\"user-image-outer\"><img src=\"" + user.ImageUrl + "\" class=\"user-image-inner\"></div>";
+            var res = "<a href=\"/user/balance/" + user.Id + "\" class=\"user-outer\"><div class=\"user-image-outer\"><img src=\"" + user.ImageUrl + "\" class=\"user-image-inner\"></div>";
             if (user.HaveLegendary)
             {
                 res += "<span title=\"Обладатель легендарного предмета\" class=\"legendary-user\">L</span>";
@@ -1065,10 +1052,10 @@ namespace KeklandBankSystem.Infrastructure
                     return new List<Statistic>();
 
                 var b = bdb.Statistics.TakeLast(realCount).ToList();
-                return Listing.SkipLast(b).ToList();
+                return b.SkipLast().ToList();
             }
             var a = bdb.Statistics.TakeLast(col).ToList();
-            return Listing.SkipLast(a).ToList();
+            return a.SkipLast().ToList();
         }
 
         public async Task AddToRecdStat(int col)
@@ -1126,10 +1113,7 @@ namespace KeklandBankSystem.Infrastructure
         public async Task<bool> UserIsPresident(User user)
         {
             var gov = await bdb.SystemMain.FirstAsync();
-            if (user.Name == gov.PresidentName)
-                return true;
-
-            return false;
+            return user.Name == gov.PresidentName;
         }
 
         public async Task CreateBankTransaction(BankTransaction orgt)
@@ -1183,13 +1167,13 @@ namespace KeklandBankSystem.Infrastructure
 
         public async Task<int[]> GetNumberStatistic()
         {
-            int money1 = await bdb.Users.SumAsync(m => m.Money);
+            var money1 = await bdb.Users.SumAsync(m => m.Money);
 
-            int money2 = await bdb.Deposits.SumAsync(m => m.Money);
+            var money2 = await bdb.Deposits.SumAsync(m => m.Money);
 
-            int money3 = await bdb.Organizations.SumAsync(m => m.Balance);
+            var money3 = await bdb.Organizations.SumAsync(m => m.Balance);
 
-            int[] mass = new int[3];
+            var mass = new int[3];
 
             mass[0] = money1;
             mass[1] = money2;
@@ -1321,7 +1305,7 @@ namespace KeklandBankSystem.Infrastructure
         {
             var list = await GetUsersAll();
 
-            int obshee = 0;
+            var obshee = 0;
             var org = await GetOrganizations("main");
 
             if (org == null)
@@ -1340,19 +1324,16 @@ namespace KeklandBankSystem.Infrastructure
 
                 var dep = await GetDeposit(user);
 
-                int userNal = 0;
+                var userNal = 0;
 
-                if (dep != null)
+                if (dep is { Money: > 100 })
                 {
-                    if (dep.Money > 100)
-                    {
-                        int depNalog = Convert.ToInt32((dep.Money / 100) * nStavka);
-                        await SpentMoney(depNalog);
-                        dep.Money -= depNalog;
-                        userNal += depNalog;
+                    var depNalog = Convert.ToInt32((dep.Money / 100) * nStavka);
+                    await SpentMoney(depNalog);
+                    dep.Money -= depNalog;
+                    userNal += depNalog;
 
-                        await SaveDeposit(dep);
-                    }
+                    await SaveDeposit(dep);
                 }
 
                 if (user.Money > 100)
@@ -1436,8 +1417,8 @@ namespace KeklandBankSystem.Infrastructure
         {
             var r = new Random();
 
-            var big = bdb.Ads.Where(m => m.isBigger == true).Skip(r.Next(0, bdb.Ads.Where(m => m.isBigger == true).Count())).FirstOrDefault();
-            var mini = bdb.Ads.Where(m => m.isBigger == false).Skip(r.Next(0, bdb.Ads.Where(m => m.isBigger == false).Count())).FirstOrDefault();
+            var big = bdb.Ads.Where(m => m.isBigger == true).Skip(r.Next(0, bdb.Ads.Count(m => m.isBigger == true))).FirstOrDefault();
+            var mini = bdb.Ads.Where(m => m.isBigger == false).Skip(r.Next(0, bdb.Ads.Count(m => m.isBigger == false))).FirstOrDefault();
 
             if (big != null)
             {
@@ -1831,7 +1812,7 @@ namespace KeklandBankSystem.Infrastructure
 
             foreach(var i in allGov)
             {
-                int a = 0;
+                var a = 0;
                 var orgs = await bdb.Organizations.Where(m => m.GovermentId == i.Id).ToListAsync();
 
                 foreach(var k in orgs)
@@ -1963,7 +1944,7 @@ namespace KeklandBankSystem.Infrastructure
 
             foreach(var i in listCasinoWins)
             {
-                if(i.Count >= -1 && i.Count <= 1)
+                if(i.Count is >= -1 and <= 1)
                 {
                     delListCasonWins.Add(i);
                 }
@@ -2147,52 +2128,49 @@ namespace KeklandBankSystem.Infrastructure
 
                 if(!user.IsArrested)
                 {
-                    var job = bdb.OrgJobs.AsNoTracking().Where(m => m.Id == i.OrgJobId).First();
+                    var job = bdb.OrgJobs.AsNoTracking().First(m => m.Id == i.OrgJobId);
                     var org = await GetOrganizations(job.OrganizationId);
 					
-					if(job != null && org != null)
+					if(job != null && org is { Status: "status_ok" })
 					{
-                        if (org.Status == "status_ok")
+                        var payDay = job.PayDay;
+
+                        if(prem)
                         {
-                            var payDay = job.PayDay;
-
-                            if(prem)
-                            {
-                                payDay = Convert.ToInt32(job.PayDay * 1.5);
-                            }
-
-                            if (org.Balance >= payDay)
-                            {
-                                user.Money += payDay;
-                                org.Balance -= payDay;
-
-                                await SpentMoney(payDay);
-
-                                await CreateTransaction(new Transaction()
-                                {
-                                    Date = NowDateTime(),
-                                    Id1 = -1,
-                                    Id2 = user.Id,
-                                    Text = "Зарплата от организации '" + org.Name + "' ( Должность: " + job.Name + " )",
-                                    Value = payDay
-                                });
-
-                                await CreateBankTransaction(new BankTransaction()
-                                {
-                                    Date = NowDateTime(),
-                                    BankId1 = org.Id,
-                                    Id2 = user.Id,
-                                    Value = payDay,
-                                    Text = "Зарплата от организации." + "' ( Должность: " + job.Name + " )"
-                                });
-
-                                bdb.Users.Update(user);
-                                bdb.Organizations.Update(org);
-
-                                await bdb.SaveChangesAsync();
-                            }
+                            payDay = Convert.ToInt32(job.PayDay * 1.5);
                         }
-					}
+
+                        if (org.Balance >= payDay)
+                        {
+                            user.Money += payDay;
+                            org.Balance -= payDay;
+
+                            await SpentMoney(payDay);
+
+                            await CreateTransaction(new Transaction()
+                            {
+                                Date = NowDateTime(),
+                                Id1 = -1,
+                                Id2 = user.Id,
+                                Text = "Зарплата от организации '" + org.Name + "' ( Должность: " + job.Name + " )",
+                                Value = payDay
+                            });
+
+                            await CreateBankTransaction(new BankTransaction()
+                            {
+                                Date = NowDateTime(),
+                                BankId1 = org.Id,
+                                Id2 = user.Id,
+                                Value = payDay,
+                                Text = "Зарплата от организации." + "' ( Должность: " + job.Name + " )"
+                            });
+
+                            bdb.Users.Update(user);
+                            bdb.Organizations.Update(org);
+
+                            await bdb.SaveChangesAsync();
+                        }
+                    }
                 }
 
                 bdb.Entry(user).State = EntityState.Detached;
@@ -2263,7 +2241,7 @@ namespace KeklandBankSystem.Infrastructure
                     {
                         if (!user.IsArrested)
                         {
-                            int addDep = Convert.ToInt32(((a.Money / 100) * nal));
+                            var addDep = Convert.ToInt32(((a.Money / 100) * nal));
 
                             a.Money += addDep;
                             moneyBank += addDep;
@@ -2357,8 +2335,8 @@ namespace KeklandBankSystem.Infrastructure
         public static IEnumerable<TSource> DistinctBy<TSource, TKey>
     (this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
         {
-            HashSet<TKey> seenKeys = new HashSet<TKey>();
-            foreach (TSource element in source)
+            var seenKeys = new HashSet<TKey>();
+            foreach (var element in source)
             {
                 if (seenKeys.Add(keySelector(element)))
                 {

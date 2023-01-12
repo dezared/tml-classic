@@ -9,7 +9,7 @@
 
     ViewData["IsOrg"] = true;
 
-    bool isAdmin = false;
+    var isAdmin = false;
     var perm = await _BankServices.GetUserPermission(user);
     var prem = false;
     GovermentPolitical GovermentLeader = null;
@@ -78,7 +78,7 @@
 
                     @if (user != null)
                     {
-                        bool isPrivillegue = user.Id == Model.organization.AdminId || Model.organization.Zam1Name == user.Id || Model.organization.Zam2Name == user.Id;
+                        var isPrivillegue = user.Id == Model.organization.AdminId || Model.organization.Zam1Name == user.Id || Model.organization.Zam2Name == user.Id;
 
                         @if (GovermentLeader != null || perm.ChangeOrganizationInfo)
                         {
@@ -127,7 +127,7 @@
                                 <a class="menu-url" href="@Url.Action("EditOrganization", "Bank", new { id = Model.organization.Id })"><i class="fas fa-edit"></i> Изменить организацию</a>
                             }
                         }
-                        @if (perm.DeleteOrganization && String.IsNullOrEmpty(Model.organization.SpecialId))
+                        @if (perm.DeleteOrganization && string.IsNullOrEmpty(Model.organization.SpecialId))
                         {
                             <a class="menu-url" href="@Url.Action("DeleteOrganization", "Bank", new { id = Model.organization.Id })"><i class="fas fa-trash-alt"></i> Удалить организацию</a>
                         }
@@ -144,7 +144,7 @@
                     if (job != null)
                     {
                         var str = "";
-                        int i = 0;
+                        var i = 0;
                         <div style="margin-top: 25px">
                             @foreach (var j in job)
                             {
