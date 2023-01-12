@@ -30,7 +30,7 @@ namespace KeklandBankSystem
                         logger.AddFilter("Microsoft.EntityFrameworkCore.Query", LogLevel.Error);
 
                     }).UseStartup<Startup>()
-                    .UseUrls("http://+:5001");
+                    .UseUrls(Environment.GetEnvironmentVariable("API_UseUrls") ?? "http://+:5001");
                 }).Build().Run();
         }
     }

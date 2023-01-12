@@ -35,7 +35,7 @@
         <a class="menu-url" href="@Url.Action("TradeShop", "Bank", new { rare = 1 })">Дорогие</a>
         <a class="menu-url" href="@Url.Action("TradeShop", "Bank", new { rare = 2 })">Редкие</a>
         <a class="menu-url" href="@Url.Action("TradeShop", "Bank", new { rare = 3 })">Эпичные</a>
-        <a class="menu-url" href="@Url.Action("AllTradeShopItems", "Bank", new { rare = 4 })">Легендарные</a>
+        <a class="menu-url" href="@Url.Action("TradeShop", "Bank", new { rare = 4 })">Легендарные</a>
 
         <div class="block-container posts-container">
 
@@ -87,7 +87,7 @@
                             <div class="wpg-list-info-block">
                                 <p class="post-item-text">@lot.item.Short_Desc</p>
                                 <p class="post-item-text">Дополнительная информация: @lot.itemShop.AddedInformation</p>
-                                <p class="post-item-date"><i class="fas fa-comment-alt-dollar"></i> Стоимость @lot.itemShop.newSum.ToString("N0") Кеклар</p>
+                                <p class="post-item-date"><i class="fas fa-comment-alt-dollar"></i> Стоимость @lot.itemShop.newSum.ToString("N0") Мемлар</p>
                                 <p class="post-item-date"><i class="fas fa-caret-square-right"></i> Редкость: <span class="text-rare-@lot.item.RareType">@type</span></p>
                                 <p class="post-item-date">Добавил: УДАЛЕНО</p>
                                 <p class="post-item-date">Добавил: @Html.Raw(_BankServices.CompleteUserName(userLot))</p>
@@ -126,7 +126,7 @@
                         <div class="wpg-list-info-block">
                             <p class="post-item-text">@lot.item.Short_Desc</p>
                             <p class="post-item-text">Дополнительная информация: @lot.itemShop.AddedInformation</p>
-                            <p class="post-item-date"><i class="fas fa-comment-alt-dollar"></i> Стоимость <strong>@lot.itemShop.newSum.ToString("N0")</strong> Кеклар</p>
+                            <p class="post-item-date"><i class="fas fa-comment-alt-dollar"></i> Стоимость <strong>@lot.itemShop.newSum.ToString("N0")</strong> Мемлар</p>
                             <p class="post-item-date"><i class="fas fa-caret-square-right"></i> Редкость: <span class="text-rare-@lot.item.RareType">@type</span></p>
                             <p class="post-item-date">Создано: @org.Name</p>
                             <p class="post-item-date">Добавил: @Html.Raw(_BankServices.CompleteUserName(userLot))</p>

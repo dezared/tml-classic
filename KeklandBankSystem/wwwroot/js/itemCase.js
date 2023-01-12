@@ -48,7 +48,7 @@ $(document).on("click", ".js-game-button", function () {
                         '</a>' +
                             '<div class="wpg-list-info-block">' +
                         '<p class="post-item-text">' + ret.item.short_Desc + '</p>' +
-                        '<p class="post-item-date"><i class="fas fa-comment-alt-dollar"></i> Стоимость ' + ret.item.price + ' Кеклар</p>' +
+                        '<p class="post-item-date"><i class="fas fa-comment-alt-dollar"></i> Стоимость ' + ret.item.price + ' Мемлар</p>' +
                         '<p class="post-item-date"><i class="fas fa-caret-square-right"></i> Редкость: <span class="text-rare-' + ret.item.rareType + '">' + type + '</span></p>' +
                             '</div>' +
                         '</div >')

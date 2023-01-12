@@ -91,7 +91,7 @@
                                         </a>
                                         <div>
                                             <a href="@Url.Action("SingleGoverment","Bank", new { id = gov.gov.Id })" class="index-stat-name @str[0]">@gov.gov.Name</a>
-                                            <span class="index-name-inf">@Html.Raw(IntTransform.ConvertInt(gov.Balance)) Кеклар </span>
+                                            <span class="index-name-inf">@Html.Raw(IntTransform.ConvertInt(gov.Balance)) Мемлар </span>
                                         </div>
                                     </div>
                                 }
@@ -125,7 +125,7 @@
                                         </a>
                                         <div>
                                             <a href="@Url.Action("SingleOrganization","Bank", new { id = org.Id })" class="index-stat-name @str[0]">@org.Name</a>
-                                            <span class="index-name-inf">@Html.Raw(IntTransform.ConvertInt(org.Balance)) Кеклар </span>
+                                            <span class="index-name-inf">@Html.Raw(IntTransform.ConvertInt(org.Balance)) Мемлар </span>
                                         </div>
                                     </div>
                                 }
@@ -159,7 +159,7 @@
                                         </div>
                                         <div>
                                             <span class="index-stat-name @str[0]">@usr.Name</span>
-                                            <span class="index-name-inf">@Html.Raw(IntTransform.ConvertInt(usr.Money)) Кеклар </span>
+                                            <span class="index-name-inf">@Html.Raw(IntTransform.ConvertInt(usr.Money)) Мемлар </span>
                                         </div>
                                     </div>
                                 }
@@ -189,7 +189,7 @@
                                 <i class="far fa-chart-bar" style="font-size: 30px;color: #9e9e9e;"></i>
                                 <div>
                                     <a class="index-stat-name">Потрачено:</a>
-                                    <span class="index-name-inf">@Html.Raw(IntTransform.ConvertInt(Model.LastStatistics.SpentMoneyAll)) Кеклар</span>
+                                    <span class="index-name-inf">@Html.Raw(IntTransform.ConvertInt(Model.LastStatistics.SpentMoneyAll)) Мемлар</span>
                                 </div>
                             </div>
                         </div>
@@ -290,7 +290,7 @@
                         }
                         @Html.Raw(_BankServices.CompleteUserName(userOrg))
                         <p class="post-item-text">@org.Information</p>
-                        <p class="post-item-date"><i class="fas fa-comment-alt-dollar"></i> Бюджет: @Html.Raw(IntTransform.ConvertInt(org.AllOrganizationBalance)) Кеклар</p>
+                        <p class="post-item-date"><i class="fas fa-comment-alt-dollar"></i> Бюджет: @Html.Raw(IntTransform.ConvertInt(org.AllOrganizationBalance)) Мемлар</p>
                         <p class="post-item-date"><i class="fas fa-funnel-dollar"></i> Установленный налог: @org.TaxesForOrganization%</p>
                     </div>
                 </div>

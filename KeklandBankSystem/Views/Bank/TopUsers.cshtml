@@ -45,7 +45,7 @@
                             <a href="@Url.Action("Balance", "Bank", new { id = trans.Id })">@Html.Raw(_BankServices.CompleteUserName(trans))</a>
                         </td>
                         <td>
-                            @trans.Money Кекларов
+                            @trans.Money Мемларов
                         </td>
                     </tr>
                     a++;
@@ -96,7 +96,7 @@
                                 <a href="@Url.Action("Balance", "Bank", new { id = user.Id })">@Html.Raw(_BankServices.CompleteUserName(user))</a>
                             </td>
                             <td>
-                                @user.Money Кекларов
+                                @user.Money Мемларов
                             </td>
                         </tr>
                     }

@@ -322,7 +322,6 @@ namespace KeklandBankSystem.Infrastructure
             var defaultPermission = new PermissionAdmin() { };
 
             if (user == null) return defaultPermission;
-            if (!IsUserAdminNonAs(user)) return defaultPermission;
 
             var role = await bdb.UserRoles.Where(m => m.UserId == user.Id).FirstOrDefaultAsync();
 
@@ -331,8 +330,7 @@ namespace KeklandBankSystem.Infrastructure
 
             var search = await bdb.PermissionAdmins.Where(m => m.RoleName == role.RoleName).FirstOrDefaultAsync();
 
-            if (search == null) return defaultPermission;
-            else return search;
+            return search ?? defaultPermission;
         }
 
         public async Task UpdateArticles(Articles article)
@@ -1060,6 +1058,15 @@ namespace KeklandBankSystem.Infrastructure
 
         public List<Statistic> GetStatisticsList(int col)
         {
+            var realCount = bdb.Statistics.Count();
+            if (realCount < col)
+            {
+                if (realCount == 0)
+                    return new List<Statistic>();
+
+                var b = bdb.Statistics.TakeLast(realCount).ToList();
+                return Listing.SkipLast(b).ToList();
+            }
             var a = bdb.Statistics.TakeLast(col).ToList();
             return Listing.SkipLast(a).ToList();
         }
@@ -2304,14 +2311,10 @@ namespace KeklandBankSystem.Infrastructure
         public bool IsUserAdminNonAs(User user)
         {
             if (user == null) return false;
-            else
-            {
-                var a = bdb.UserRoles.Where(m => m.UserId == user.Id).Where(m => m.RoleName == "Administrator").FirstOrDefault();
-                var b = bdb.UserRoles.Where(m => m.UserId == user.Id).Where(m => m.RoleName == "Owner").FirstOrDefault();
-                var c = bdb.UserRoles.Where(m => m.UserId == user.Id).Where(m => m.RoleName == "Moderator").FirstOrDefault();
-                if (a == null && b == null && c == null) return false;
-                return true;
-            }
+            var a = bdb.UserRoles.Where(m => m.UserId == user.Id).FirstOrDefault(m => m.RoleName == "Administrator");
+            var b = bdb.UserRoles.Where(m => m.UserId == user.Id).FirstOrDefault(m => m.RoleName == "Owner");
+            var c = bdb.UserRoles.Where(m => m.UserId == user.Id).FirstOrDefault(m => m.RoleName == "Moderator");
+            return a != null || b != null || c != null;
         }
 
         public async Task CreateUserAsync(User user)

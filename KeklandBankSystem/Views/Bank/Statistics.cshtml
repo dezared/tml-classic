@@ -52,23 +52,23 @@
              <canvas id="line-chart-2" width="800" height="450"></canvas>
              <div class="block-container ucp-valid-info ucp-log-container">
                  <ul>
-                     <li>Количество денег на счетах: <strong>@mass[0].ToString("N0")</strong> Кеклар</li>
-                     <li>Количество денег в депозитах: <strong>@mass[1].ToString("N0")</strong> Кеклар</li>
-                     <li>Количество денег в организациях: <strong>@mass[2].ToString("N0")</strong> Кеклар</li>
-                     <li>Общее количество денег: <strong>@((mass[0] + mass[1] + mass[2] + kupleno).ToString("N0"))</strong> Кеклар</li>
-                     <li>Мировое ВВП на этой неделе: <strong>@wwp.ToString("N0")</strong> Кеклар</li>
-                     <li>Мировое ВВП На душу населения на этой неделе: <strong>@wwp_on_people.ToString("N0")</strong> Кеклар</li>
-                     <li>Средняя запралата: <strong>@srednya_zp.ToString("N0")</strong> Кеклар</li>
-                     <li>Товарный оборот: <strong>@torg_oborot.ToString("N0")</strong> Кеклар</li>
-                     <li>Покупательский оборот: <strong>@buyed_oboror.ToString("N0")</strong> Кеклар</li>
-                     <li>Средняя цена товара: <strong>@srednya_cena.ToString("N0")</strong> Кеклар</li>
-                     <li>Всего потрачено в магазине: <strong>@kupleno.ToString("N0")</strong> Кеклар</li>
+                     <li>Количество денег на счетах: <strong>@mass[0].ToString("N0")</strong> Мемлар</li>
+                     <li>Количество денег в депозитах: <strong>@mass[1].ToString("N0")</strong> Мемлар</li>
+                     <li>Количество денег в организациях: <strong>@mass[2].ToString("N0")</strong> Мемлар</li>
+                     <li>Общее количество денег: <strong>@((mass[0] + mass[1] + mass[2] + kupleno).ToString("N0"))</strong> Мемлар</li>
+                     <li>Мировое ВВП на этой неделе: <strong>@wwp.ToString("N0")</strong> Мемлар</li>
+                     <li>Мировое ВВП На душу населения на этой неделе: <strong>@wwp_on_people.ToString("N0")</strong> Мемлар</li>
+                     <li>Средняя запралата: <strong>@srednya_zp.ToString("N0")</strong> Мемлар</li>
+                     <li>Товарный оборот: <strong>@torg_oborot.ToString("N0")</strong> Мемлар</li>
+                     <li>Покупательский оборот: <strong>@buyed_oboror.ToString("N0")</strong> Мемлар</li>
+                     <li>Средняя цена товара: <strong>@srednya_cena.ToString("N0")</strong> Мемлар</li>
+                     <li>Всего потрачено в магазине: <strong>@kupleno.ToString("N0")</strong> Мемлар</li>
                      @if (await _BankServices.UserIsInRole(user, "Administrator") || await _BankServices.UserIsInRole(user, "Owner") || _BankServices.UserHavePremium(user))
                      {
                          <li class="prob">
                              Админ-статистика, актуально:
-                             <p>Выплачено: <strong>@last.Spent.ToString("N0")</strong> Кеклар</p>
-                             <p>Получено: <strong>@last.Recd.ToString("N0")</strong> Кеклар</p>
+                             <p>Выплачено: <strong>@last.Spent.ToString("N0")</strong> Мемлар</p>
+                             <p>Получено: <strong>@last.Recd.ToString("N0")</strong> Мемлар</p>
                          </li>
                      }
                  </ul>
