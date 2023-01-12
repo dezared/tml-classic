@@ -15,7 +15,7 @@ namespace KeklandBankSystem.Model
 
         public string Comment { get; set; }
 
-        [Range(3, Int32.MaxValue, ErrorMessage = "Минимальное количество кеклар: 3")]
+        [Range(3, int.MaxValue, ErrorMessage = "Минимальное количество кеклар: 3")]
         [Required(ErrorMessage = "Обязательная строка")]
         public int Value { get; set; }
     }

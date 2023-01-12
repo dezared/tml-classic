@@ -2,10 +2,10 @@
     var user = await _BankServices.GetUser();
     var perm = await _BankServices.GetUserPermission(user);
 
-    int col = _BankServices.GetCountTicket();
+    var col = _BankServices.GetCountTicket();
     var tovar = await _BankServices.GetAllItems();
-    var col_news = (await _BankServices.GetAllNews()).Where(m => m.Type == "status_timing").Count();
-    int tovar_int = tovar.Where(m => m.isActived == false).Count();
+    var col_news = (await _BankServices.GetAllNews()).Count(m => m.Type == "status_timing");
+    var tovar_int = tovar.Count(m => m.isActived == false);
     var welfare = new WeithLevel() { Id = -1 };
 
     if (user != null)
@@ -211,7 +211,7 @@
                     }
                 </ul>
                 <hr class="menu-separator">
-                <form method="post" asp-controller="Bank" asp-action="Logout" asp-area="User">
+                <form method="post" asp-controller="Bank" asp-action="Logout">
                     <a class="ucp-url-button no-padding menu-linkRow">
                         <input type="submit" class="ucp-url-text input-url-ucp input-off" value="Выйти" />
                     </a>

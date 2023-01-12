@@ -83,7 +83,7 @@
                             </div>
                             <div class="ucp-row-input">
                                 @{
-                                    string status = "";
+                                    var status = "";
                                     if (Model.NewStatus == "status_frozzen")
                                     {
                                         status = "Заморожено";
@@ -100,7 +100,7 @@
 
                                 @foreach (var _status in Model.NewStatuses)
                                 {
-                                    bool check = (_status == status);
+                                    var check = (_status == status);
 
                                     @if (check)
                                     {
